@@ -1,14 +1,16 @@
 import React from "react";
 import listSvg from '../../assets/img/list.svg'
 
-function List() {
+import styles from './List.module.scss'
+
+function List({items=[], label=''}) {
     return (
-        <ul className='todo__list'>
+        <ul className={styles.todo__list}>
             <li>
                 <i>
                     <img src={listSvg} alt='list item' ></img>
                 </i>
-                <span>Alle Aufgaben</span>
+                <span>{label}</span>
             </li>
         </ul>
     )
