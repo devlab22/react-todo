@@ -7,6 +7,8 @@
 
   .list {
 
+   
+
     .mb30 {
       margin-bottom: 30px;
     }
@@ -18,15 +20,30 @@
       padding: 10px 12px;
       margin-bottom: 5px;
 
+      span {
+        flex: 1;
+      }
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.7);
+
+        .removable {
+          opacity: 0.3;
+        }
+      }
+
+      .removable {
+        opacity: 0;
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+
       &.active {
         background: #ffffff;
         box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
         border-radius: 4px;
-      }
-
-      &.removable {
-        margin-left: 100px;
-        opacity: 0.5;
       }
 
       i {
@@ -39,39 +56,23 @@
       }
 
       .badge {
-        width: 10px;
-        height: 10px;
-        border-radius: 30px;
         position: relative;
-        left: 5px;
-
-        &-green {
-          background-color: #42B883;
-        }
-
-        &-blue {
-          background-color: #64C4ED;
-        }
-
-        &-pink {
-          background-color: #ffbbcc;
-        }
       }
     }
-  }
 
-  .removable {
-    margin-left: 20px;
-    opacity: 0.4;
+    .add {
+      margin-top: 30px;
+      opacity: 0.6;
 
-  }
+      &:hover {
+        opacity: 1;
+      }
 
-  .add {
-    margin-top: 30px;
-    opacity: 0.6;
+    }
 
-    &:hover {
-      opacity: 1;
+    &-tasks-cnt{
+      opacity: 0.4;
+      margin-left: 15px;
     }
 
   }

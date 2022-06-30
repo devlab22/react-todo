@@ -1,32 +1,16 @@
 import React from "react";
 
-import removeIcon from '../../assets/img/remove.svg';
+import {List, AddButton } from '../../components';
 
 import './Sidebar.scss'
 
-function Sidebar({ items = [] }) {
+function Sidebar({ items = [], onClickItem, onClickRemove, colors=[], selectedId, onAddFolder }) {
 
     return (
         <div className="sidebar">
-            <ul className="list">
-              {
-                items.map((item, index) =>  (           
-                <li key={index} className={item.clsname}>
-                    <i>
-                    { item.icon ? (
-                        <img src={item.icon} alt="icon" ></img>) : (
-                        <i className={`badge badge-${item.color}`}></i>
-                        ) }
-                    </i>
-                    <span>{item.name}</span> 
-
-                   {
-                    item.removable && <img className="removable" src={removeIcon} alt="remove" ></img>
-                   }                  
-                </li>               
-                ))
-              }
-            </ul>
+            <List items={items.filter(item => item.id === 0)} onClickItem={onClickItem} selectedId={selectedId} />
+            <List items={items.filter(item => item.id !== 0)} onClickRemove={onClickRemove} onClickItem={onClickItem} selectedId={selectedId} isRemovable={true} />
+            <AddButton colors={colors} onAddFolder={onAddFolder}/>
         </div>
     )
 }
