@@ -56,13 +56,29 @@ body {
   padding: 10px 20px;
   cursor: pointer;
   
-
+  &:disabled{
+    background: #444444;
+  }
+  
   &:hover{
     background: darken(#4dd599, 6%);
   }
 
   &:active{
     background: darken(#4dd599, 10%);
+  }
+
+  &-grey{
+    background: #f4f6f8;
+    color: #444444;
+
+    &:hover{
+      background: darken(#f4f6f8, 4%);
+    }
+
+    &:active{
+      background: darken(#f4f6f8, 10%);
+    }
   }
 }
 

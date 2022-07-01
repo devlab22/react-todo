@@ -5,9 +5,8 @@ import { AddTaskForm } from '../../components';
 import './Tasks.scss';
 import editSvg from '../../assets/img/edit.svg';
 import removeSvg from '../../assets/img/remove.svg';
-import addSvg from '../../assets/img/add.svg';
 
-export default function Tasks({ selectedId, lists = [], tasks = [], onEditTitle, onDeleteTask }) {
+export default function Tasks({ selectedId, lists = [], tasks = [], onEditTitle, onDeleteTask, onEditTask, onAddTask }) {
 
     const selectedItem = selectedId >= 0 ? lists.find(item => item.id === selectedId) : null;
 
@@ -17,6 +16,13 @@ export default function Tasks({ selectedId, lists = [], tasks = [], onEditTitle,
     if (selectedItem) {
         title = selectedItem.name;
         selectedItem.id === 0 ? items = tasks : items = tasks.filter(item => item.listId === selectedId);
+    }
+
+    const handleOnAddTask = (task) => {
+
+        task.listId = selectedId
+
+        onAddTask(task);
     }
 
     return (
@@ -54,12 +60,13 @@ export default function Tasks({ selectedId, lists = [], tasks = [], onEditTitle,
                             </div>
 
                             <input readOnly className='task' type="text" value={item.text} onChange={() => { }} />
-                            <img src={removeSvg} alt="edit" onClick={onDeleteTask && (() => onDeleteTask(item.id))} />
+                            <img src={editSvg} alt="edit" onClick={onEditTask && (() => onEditTask(item))} />
+                            <img src={removeSvg} alt="remove" onClick={onDeleteTask && (() => onDeleteTask(item))} />
                         </div>
                     )
 
                     )}
-                 { selectedId > 0 && <AddTaskForm />}
+                 { selectedId > 0 && <AddTaskForm onAddTask={handleOnAddTask}/>}
             </div>
         </div>
     )

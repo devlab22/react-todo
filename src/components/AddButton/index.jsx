@@ -53,7 +53,7 @@ function AddButtonList({ colors=[], onAddFolder }) {
         if(colors.length > 0){
             setColorId(colors[0].id)
         }
-       // setColorId(colors[0].id);
+       
     }
 
     return (

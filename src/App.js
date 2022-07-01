@@ -137,16 +137,12 @@ function App() {
 
   }
 
-  const handleOnEditTask = async (parent, task) => {
-
-    if (!parent) {
-      return
-    }
+  const handleOnEditTask = async (task) => {
 
     if (!task) {
       return
     }
-    const newTitle = window.prompt('Bezeichnung', task.name);
+    const newTitle = window.prompt('Bezeichnung', task.text);
 
     if (!newTitle) {
       return
@@ -155,13 +151,13 @@ function App() {
     try {
 
       await axios.patch(`http://localhost:3001/tasks/${task.id}`, {
-        name: newTitle
+        text: newTitle
       });
 
       const newList = tasks.map(curr => {
 
         if (curr.id === task.id) {
-          curr.name = newTitle;
+          curr.text = newTitle;
         }
 
         return curr;
@@ -176,17 +172,29 @@ function App() {
 
   }
 
-  const handleOnDeleteTask = async (id) => {
+  const handleOnDeleteTask = async (item) => {
 
-    if (!window.confirm('Wollen Sie Aufgabe entfernen?')) {
+    if (!window.confirm(`Möchten Sie Aufgabe "${item.text}" löschen?`)) {
       return;
     }
 
     try {
 
-      await axios.delete(`http://localhost:3001/tasks/${id}`);
+      await axios.delete(`http://localhost:3001/tasks/${item.id}`);
 
-      setTasks(prev => prev.filter(item => item.id !== id) );
+      setTasks(prev => prev.filter(curr => curr.id !== item.id));
+
+      const newList = data.map(curr => {
+
+        if(curr.id === item.listId){
+          curr.tasks--;
+        }
+
+        return curr;
+      })
+
+      setData(newList)
+
     }
     catch (err) {
 
@@ -194,26 +202,54 @@ function App() {
     }
 
   }
-  return (
-    <div className="todo">
-      <Sidebar
-        key={1}
-        items={data}
-        onClickItem={handleOnClickItem}
-        onClickRemove={handleOnRemove}
-        selectedId={selectedId}
-        colors={folderColors}
-        onAddFolder={handleOnAddFolder} />
-      <div className='todo__tasks'>
-        <Tasks
-          selectedId={selectedId}
-          lists={data} tasks={tasks}
-          onEditTitle={handleOnEditTitle}
-          onEditTask={handleOnEditTask} 
-          onDeleteTask={handleOnDeleteTask}/>
-      </div>
-    </div>
-  );
-}
 
-export default App;
+  const handleOnAddTask = async (task) => {
+
+    try {
+
+      const resp = await axios.post('http://localhost:3001/tasks', task );
+
+      setTasks(prev => [...prev, resp.data]);
+      
+      const newList = data.map(item => {
+
+        if(item.id === task.listId){
+          item.tasks++;
+        }
+
+        return item;
+      })
+
+      setData(newList)
+
+    }
+    catch (err) {
+      alert(err)
+    }
+
+  }
+
+    return (
+      <div className="todo">
+        <Sidebar
+          key={1}
+          items={data}
+          onClickItem={handleOnClickItem}
+          onClickRemove={handleOnRemove}
+          selectedId={selectedId}
+          colors={folderColors}
+          onAddFolder={handleOnAddFolder} />
+        <div className='todo__tasks'>
+          <Tasks
+            selectedId={selectedId}
+            lists={data} tasks={tasks}
+            onEditTitle={handleOnEditTitle}
+            onEditTask={handleOnEditTask}
+            onDeleteTask={handleOnDeleteTask}
+            onAddTask={handleOnAddTask} />
+        </div>
+      </div>
+    );
+  }
+
+  export default App;

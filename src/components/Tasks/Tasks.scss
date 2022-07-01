@@ -9,7 +9,7 @@
     font-family: Montserrat, -apple-system, system-ui, sans-serif;
     padding-bottom: 20px;
     border-bottom: 1px solid #f2f2f2;
-    
+
 
     &:hover {
       img {
@@ -28,11 +28,11 @@
     }
   }
 
-  &__items{
+  &__items {
 
     margin-top: 30px;
 
-    h2{
+    h2 {
       font-family: Montserrat, apple-system, system-ui, sans-serif;
       font-weight: bold;
       font-size: 24px;
@@ -42,13 +42,13 @@
       top: 50%;
       position: absolute;
     }
-    
-    &-row{
+
+    &-row {
       display: flex;
       align-items: center;
       margin-bottom: 15px;
 
-      .task{
+      .task {
         margin-left: 15px;
         border: none;
         width: 100%;
@@ -59,12 +59,12 @@
           opacity: 0.2;
         }
       }
-  
+
       img {
         opacity: 0;
         cursor: pointer;
         margin-left: 15px;
-  
+
         &:hover {
           opacity: 0.8;
         }
@@ -75,36 +75,39 @@
   .checkbox {
 
     display: flex;
-    
+
     input {
       display: none;
     }
 
-    svg{
-      path{
+    svg {
+      path {
         stroke: #f2f2f2;
       }
     }
 
-    input:checked + label {
+    input:checked+label {
       background-color: #4dd599;
       border-color: #4dd599;
 
-      svg{
+      svg {
         opacity: 1;
-        path{
+
+        path {
           stroke: #f2f2f2;
         }
       }
     }
 
-    &:hover{
-      label{
+    &:hover {
+      label {
         background-color: #f2f2f2;
         border-color: #f2f2f2;
-        svg{
+
+        svg {
           opacity: 1;
-          path{
+
+          path {
             stroke: #b2b2b2
           }
         }
@@ -121,12 +124,68 @@
       height: 20px;
       cursor: pointer;
 
-      svg{
+      svg {
         opacity: 0;
       }
     }
 
-   
+  }
+
+  .tasks-form {
+    margin-top: 50px;
+    margin-left: 5px;
+    
+    align-items: center;
+
+    &-new {
+      opacity: .4;
+      cursor: pointer;
+     
+
+      &:hover {
+        opacity: .8;
+      }
+
+      span {
+        margin-left: 20px;
+      }
+
+      &-popup {
+        width: 500px;
+        height: 120px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.05);
+        padding: 18px;
+        box-sizing: border-box;
+        position: relative;
+        left: 20px;
+
+        &-close-btn {
+          position: absolute;
+          right: -10px;
+          top: -10px;
+          cursor: pointer;
+        }
+
+        input{
+          padding: 5px;
+        }
+
+        &-block{
+          display: flex;
+        }
+
+        button {
+          margin-top: 15px;
+          margin-right: 10px;
+          width: 50%;
+        }
+      }
+
+    
+    }
+
 
   }
 
