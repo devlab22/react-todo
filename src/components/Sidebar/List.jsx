@@ -1,13 +1,12 @@
 import React from "react";
 
-import { Badge}  from "../../components";
+import { Badge }  from "../../components";
 
 import './Sidebar.scss';
 import removeIcon from '../../assets/img/remove.svg';
 
 function List({ items = [], onClickItem, onClickRemove, selectedId=null, isRemovable=false}) {
 
- // console.log(items)
   return (
     <ul className="list">
       {
@@ -18,7 +17,7 @@ function List({ items = [], onClickItem, onClickRemove, selectedId=null, isRemov
             </i>
             <span>
               {item.name}
-              {( item.tasks && item.tasks > 0) && item.tasks}
+              {item.tasks >= 0 && <span className="list-tasks-cnt">{`(${item.tasks})`}</span> }
              </span> 
             {isRemovable && <img className="removable" src={removeIcon} alt="remove" onClick={(event) => onClickRemove(event, item.id)} ></img>}
           </li>

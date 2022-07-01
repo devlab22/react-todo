@@ -1,31 +1,34 @@
 import React from 'react'
 
+import { AddTaskForm } from '../../components';
+
 import './Tasks.scss';
 import editSvg from '../../assets/img/edit.svg';
+import removeSvg from '../../assets/img/remove.svg';
+import addSvg from '../../assets/img/add.svg';
 
-export default function Tasks({ selectedId, lists = [], tasks = [] }) {
+export default function Tasks({ selectedId, lists = [], tasks = [], onEditTitle, onDeleteTask }) {
 
+    const selectedItem = selectedId >= 0 ? lists.find(item => item.id === selectedId) : null;
 
-    const selectedItem = selectedId ? lists.find(item => item.id === selectedId) : null;
     let title = '';
     let items = [];
 
     if (selectedItem) {
         title = selectedItem.name;
-        items = tasks.filter(item => item.listId === selectedId);
+        selectedItem.id === 0 ? items = tasks : items = tasks.filter(item => item.listId === selectedId);
     }
-
 
     return (
         <div className='tasks'>
             <h1 className='tasks__title'>
                 {title}
-                <img src={editSvg} alt="edit" />
+                {selectedItem && (<img src={editSvg} alt="edit" onClick={onEditTitle && (() => onEditTitle(selectedItem))} />)}
             </h1>
 
             <div className='tasks__items'>
+                {items.length === 0 ? (selectedId && <h2>keine Aufgaben</h2>) :
 
-                {
                     items.map(item => (
 
                         <div key={item.id} className="tasks__items-row">
@@ -50,14 +53,13 @@ export default function Tasks({ selectedId, lists = [], tasks = [] }) {
 
                             </div>
 
-                            <input readOnly className='task' type="text" value={item.text} onChange={() => {}}/>
+                            <input readOnly className='task' type="text" value={item.text} onChange={() => { }} />
+                            <img src={removeSvg} alt="edit" onClick={onDeleteTask && (() => onDeleteTask(item.id))} />
                         </div>
                     )
 
-                )}
-
-
-
+                    )}
+                 { selectedId > 0 && <AddTaskForm />}
             </div>
         </div>
     )

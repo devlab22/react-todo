@@ -3,13 +3,13 @@
   &__title {
     color: #64c4ed;
     line-height: 39px;
-    font-size: 32px;
+    font-size: 2rem;
     font-weight: bold;
     font-style: normal;
     font-family: Montserrat, -apple-system, system-ui, sans-serif;
     padding-bottom: 20px;
     border-bottom: 1px solid #f2f2f2;
-    text-align: center;
+    
 
     &:hover {
       img {
@@ -31,6 +31,17 @@
   &__items{
 
     margin-top: 30px;
+
+    h2{
+      font-family: Montserrat, apple-system, system-ui, sans-serif;
+      font-weight: bold;
+      font-size: 24px;
+      color: #c9d1d3;
+      text-align: center;
+      left: 50%;
+      top: 50%;
+      position: absolute;
+    }
     
     &-row{
       display: flex;
@@ -40,6 +51,23 @@
       .task{
         margin-left: 15px;
         border: none;
+        width: 100%;
+      }
+
+      &:hover {
+        img {
+          opacity: 0.2;
+        }
+      }
+  
+      img {
+        opacity: 0;
+        cursor: pointer;
+        margin-left: 15px;
+  
+        &:hover {
+          opacity: 0.8;
+        }
       }
     }
   }

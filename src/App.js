@@ -12,7 +12,7 @@ function App() {
   const [data, setData] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
-  const [folderColors, setFolderColors] = useState([])
+  const [folderColors, setFolderColors] = useState([]);
 
   useEffect(() => {
 
@@ -28,21 +28,20 @@ function App() {
 
         const lists = respLists.data.map(item => {
 
-          if ('colorId' in item) {
+          if (item.colorId) {
             item.color = respColors.data.find(color => color.id === item.colorId).name;
             item.hex = respColors.data.find(color => color.id === item.colorId).hex;
           }
 
-          if(item.id === 0){
+          if (item.id === 0) {
             item.icon = listSvg;
             item.clsname = "mb30";
             item.tasks = respTasks.data.length;
           }
-          else{
+          else {
             item.tasks = respTasks.data.filter(task => task.listId === item.id).length;
-            //console.log(item)
           }
-         
+
           return item;
         })
 
@@ -102,6 +101,99 @@ function App() {
 
   }
 
+  const handleOnEditTitle = async (item) => {
+
+    if (!item) {
+      return
+    }
+
+    const newTitle = window.prompt('Bezeichnung', item.name);
+
+    if (!newTitle) {
+      return
+    }
+
+    try {
+
+      await axios.patch(`http://localhost:3001/lists/${item.id}`, {
+        name: newTitle
+      });
+
+      const newList = data.map(curr => {
+
+        if (curr.id === item.id) {
+          curr.name = newTitle;
+        }
+
+        return curr;
+      })
+
+      setData(newList);
+    }
+    catch (err) {
+
+      alert(err);
+    }
+
+  }
+
+  const handleOnEditTask = async (parent, task) => {
+
+    if (!parent) {
+      return
+    }
+
+    if (!task) {
+      return
+    }
+    const newTitle = window.prompt('Bezeichnung', task.name);
+
+    if (!newTitle) {
+      return
+    }
+
+    try {
+
+      await axios.patch(`http://localhost:3001/tasks/${task.id}`, {
+        name: newTitle
+      });
+
+      const newList = tasks.map(curr => {
+
+        if (curr.id === task.id) {
+          curr.name = newTitle;
+        }
+
+        return curr;
+      })
+
+      setTasks(newList);
+    }
+    catch (err) {
+
+      alert(err);
+    }
+
+  }
+
+  const handleOnDeleteTask = async (id) => {
+
+    if (!window.confirm('Wollen Sie Aufgabe entfernen?')) {
+      return;
+    }
+
+    try {
+
+      await axios.delete(`http://localhost:3001/tasks/${id}`);
+
+      setTasks(prev => prev.filter(item => item.id !== id) );
+    }
+    catch (err) {
+
+      alert(err);
+    }
+
+  }
   return (
     <div className="todo">
       <Sidebar
@@ -113,8 +205,12 @@ function App() {
         colors={folderColors}
         onAddFolder={handleOnAddFolder} />
       <div className='todo__tasks'>
-        <Tasks selectedId={selectedId} lists={data} tasks={tasks} />
-
+        <Tasks
+          selectedId={selectedId}
+          lists={data} tasks={tasks}
+          onEditTitle={handleOnEditTitle}
+          onEditTask={handleOnEditTask} 
+          onDeleteTask={handleOnDeleteTask}/>
       </div>
     </div>
   );
