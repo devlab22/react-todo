@@ -240,7 +240,7 @@ function App() {
   useEffect(() => {
 
     const itemId = location.pathname.split("lists/")[1];
-    itemId && setSelectedId(Number(itemId));
+    itemId ? setSelectedId(Number(itemId)) : setSelectedId(0);
 
   }, [data, location, location.pathname])
 
