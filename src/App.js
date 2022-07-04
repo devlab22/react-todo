@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Circles } from 'react-loader-spinner';
+import { Routes, Route, useLocation } from "react-router-dom";
 
 import { Sidebar, Tasks } from './components';
 
@@ -13,11 +15,14 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [folderColors, setFolderColors] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  let location = useLocation();
 
   useEffect(() => {
 
     async function readData() {
-
+     
+      setIsLoading(true)
       try {
 
         const [respLists, respColors, respTasks] = await Promise.all([
@@ -53,6 +58,9 @@ function App() {
       catch (err) {
         console.log(err);
       }
+      finally{
+        setIsLoading(false);
+      }
 
     }
 
@@ -74,7 +82,7 @@ function App() {
       setData(prev => prev.filter(item => item.id !== id))
     }
     catch (err) {
-      alert(err)
+      alert(err);
     }
 
   }
@@ -186,7 +194,7 @@ function App() {
 
       const newList = data.map(curr => {
 
-        if(curr.id === item.listId){
+        if (curr.id === item.listId) {
           curr.tasks--;
         }
 
@@ -207,13 +215,13 @@ function App() {
 
     try {
 
-      const resp = await axios.post('http://localhost:3001/tasks', task );
+      const resp = await axios.post('http://localhost:3001/tasks', task);
 
       setTasks(prev => [...prev, resp.data]);
-      
+
       const newList = data.map(item => {
 
-        if(item.id === task.listId){
+        if (item.id === task.listId) {
           item.tasks++;
         }
 
@@ -229,27 +237,79 @@ function App() {
 
   }
 
-    return (
-      <div className="todo">
-        <Sidebar
-          key={1}
-          items={data}
-          onClickItem={handleOnClickItem}
-          onClickRemove={handleOnRemove}
-          selectedId={selectedId}
-          colors={folderColors}
-          onAddFolder={handleOnAddFolder} />
-        <div className='todo__tasks'>
-          <Tasks
-            selectedId={selectedId}
-            lists={data} tasks={tasks}
-            onEditTitle={handleOnEditTitle}
-            onEditTask={handleOnEditTask}
-            onDeleteTask={handleOnDeleteTask}
-            onAddTask={handleOnAddTask} />
-        </div>
-      </div>
-    );
-  }
+  useEffect(() => {
 
-  export default App;
+    const itemId = location.pathname.split("lists/")[1];
+    itemId && setSelectedId(Number(itemId));
+
+  }, [data, location, location.pathname])
+
+  if (isLoading){
+
+    return(
+      <div className='loading-container'>
+        <Circles 
+          color="#00BFFF" 
+          height={80} 
+          width={80}/>
+      </div>
+    )
+
+  }else{
+
+  return (
+   
+    <div className="todo">
+       
+      <Sidebar
+        key={1}
+        items={data}
+        onClickItem={handleOnClickItem}
+        onClickRemove={handleOnRemove}
+        selectedId={selectedId}
+        colors={folderColors}
+        onAddFolder={handleOnAddFolder} />
+      <div className='todo__tasks'>
+        <Routes>
+
+          <Route exact path='/' element={
+            data && data.map(item => (
+
+              item.id > 0 && (
+                <Tasks
+                  key={item.id}
+                  selectedId={item.id}
+                  lists={data}
+                  tasks={tasks}
+                  withoutEmpty={true}
+                  onEditTitle={handleOnEditTitle}
+                  onEditTask={handleOnEditTask}
+                  onDeleteTask={handleOnDeleteTask}
+                  onAddTask={handleOnAddTask}>                  
+                </Tasks>
+              )))
+          }>
+
+          </Route>
+          <Route path='/lists/:id' element={
+
+            <Tasks
+              selectedId={selectedId}
+              lists={data}
+              tasks={tasks}
+              onEditTitle={handleOnEditTitle}
+              onEditTask={handleOnEditTask}
+              onDeleteTask={handleOnDeleteTask}
+              onAddTask={handleOnAddTask} />
+          }>
+          </Route>
+        </Routes>
+
+      </div>
+      
+    </div>
+        );
+}
+}
+
+export default App;

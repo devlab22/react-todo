@@ -6,7 +6,7 @@ import './Tasks.scss';
 import editSvg from '../../assets/img/edit.svg';
 import removeSvg from '../../assets/img/remove.svg';
 
-export default function Tasks({ selectedId, lists = [], tasks = [], onEditTitle, onDeleteTask, onEditTask, onAddTask }) {
+export default function Tasks({ selectedId, lists = [], tasks = [], onEditTitle, onDeleteTask, onEditTask, onAddTask, withoutEmpty=false }) {
 
     const selectedItem = selectedId >= 0 ? lists.find(item => item.id === selectedId) : null;
 
@@ -27,13 +27,13 @@ export default function Tasks({ selectedId, lists = [], tasks = [], onEditTitle,
 
     return (
         <div className='tasks'>
-            <h1 className='tasks__title'>
-                {title}
-                {selectedItem && (<img src={editSvg} alt="edit" onClick={onEditTitle && (() => onEditTitle(selectedItem))} />)}
+            <h1 className='tasks__title' style={{color: selectedItem.hex}}>
+               {title}
+               {selectedItem && (<img src={editSvg} alt="edit" onClick={onEditTitle && (() => onEditTitle(selectedItem))} />)}
             </h1>
 
             <div className='tasks__items'>
-                {items.length === 0 ? (selectedId && <h2>keine Aufgaben</h2>) :
+                {items.length === 0 ? ( !withoutEmpty && selectedId && <h2>keine Aufgaben</h2>) :
 
                     items.map(item => (
 

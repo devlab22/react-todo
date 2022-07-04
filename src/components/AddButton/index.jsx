@@ -14,10 +14,11 @@ function AddButtonList({ colors=[], onAddFolder }) {
 
     
     useEffect(() => {
+
         if(colors.length > 0){
             setColorId(colors[0].id)
         }
-    });
+    }, [colors]);
 
     const items = [
         {

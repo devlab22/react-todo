@@ -1,5 +1,9 @@
 .tasks {
 
+  &:not(:last-of-type){
+    margin-bottom: 40px;
+  }
+
   &__title {
     color: #64c4ed;
     line-height: 39px;
