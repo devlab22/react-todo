@@ -26,9 +26,9 @@ function App() {
       try {
 
         const [respLists, respColors, respTasks] = await Promise.all([
-          axios.get("http://localhost:3001/lists"),
-          axios.get("http://localhost:3001/colors"),
-          axios.get("http://localhost:3001/tasks")
+          axios.get("/lists"),
+          axios.get("/colors"),
+          axios.get("/tasks")
         ]);
 
         const lists = respLists.data.map(item => {
@@ -71,15 +71,15 @@ function App() {
   const handleOnRemove = async (event, id) => {
     event.stopPropagation();
 
-    if (!window.confirm('Wollen Sie order entfernen?')) {
+    if (!window.confirm('Wollen Sie Ordner entfernen?')) {
       return;
     }
 
     try {
 
-      await axios.delete(`http://localhost:3001/lists/${id}`);
+      await axios.delete(`/lists/${id}`);
 
-      setData(prev => prev.filter(item => item.id !== id))
+      setData(prev => prev.filter(item => item.id !== id));
     }
     catch (err) {
       alert(err);
@@ -94,7 +94,7 @@ function App() {
   const handleOnAddFolder = async (item) => {
 
     try {
-      const { data } = await axios.post('http://localhost:3001/lists', {
+      const { data } = await axios.post('/lists', {
         name: item.name,
         colorId: item.colorId
       });
@@ -123,7 +123,7 @@ function App() {
 
     try {
 
-      await axios.patch(`http://localhost:3001/lists/${item.id}`, {
+      await axios.patch(`/lists/${item.id}`, {
         name: newTitle
       });
 
@@ -139,7 +139,6 @@ function App() {
       setData(newList);
     }
     catch (err) {
-
       alert(err);
     }
 
@@ -158,7 +157,7 @@ function App() {
 
     try {
 
-      await axios.patch(`http://localhost:3001/tasks/${task.id}`, {
+      await axios.patch(`/tasks/${task.id}`, {
         text: newTitle
       });
 
@@ -188,7 +187,7 @@ function App() {
 
     try {
 
-      await axios.delete(`http://localhost:3001/tasks/${item.id}`);
+      await axios.delete(`/tasks/${item.id}`);
 
       setTasks(prev => prev.filter(curr => curr.id !== item.id));
 
@@ -215,7 +214,7 @@ function App() {
 
     try {
 
-      const resp = await axios.post('http://localhost:3001/tasks', task);
+      const resp = await axios.post('/tasks', task);
 
       setTasks(prev => [...prev, resp.data]);
 
@@ -235,6 +234,31 @@ function App() {
       alert(err)
     }
 
+  }
+
+  const handleOnCompleteTask = async (taskId, completed) => {
+
+    try{
+
+     const {data} = await axios.patch(`/tasks/${taskId}`, {
+        completed: completed
+      });
+
+      setTasks(prev => prev.map(item => {
+
+          if(item.id === taskId){
+            item.completed = data.completed
+          }
+
+          return item;
+      }
+       
+      ))
+
+    }
+    catch(err){
+
+    }
   }
 
   useEffect(() => {
@@ -285,13 +309,14 @@ function App() {
                   onEditTitle={handleOnEditTitle}
                   onEditTask={handleOnEditTask}
                   onDeleteTask={handleOnDeleteTask}
-                  onAddTask={handleOnAddTask}>                  
-                </Tasks>
+                  onAddTask={handleOnAddTask}
+                  onCompleteTask={handleOnCompleteTask}
+                  />  
               )))
           }>
 
           </Route>
-          <Route path='/lists/:id' element={
+          <Route exact path='/lists/:id' element={
 
             <Tasks
               selectedId={selectedId}
@@ -300,7 +325,9 @@ function App() {
               onEditTitle={handleOnEditTitle}
               onEditTask={handleOnEditTask}
               onDeleteTask={handleOnDeleteTask}
-              onAddTask={handleOnAddTask} />
+              onAddTask={handleOnAddTask} 
+              onCompleteTask={handleOnCompleteTask}
+              />
           }>
           </Route>
         </Routes>

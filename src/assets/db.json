@@ -71,7 +71,7 @@
       "id": 2,
       "listId": 2,
       "text": "Lernen HTML",
-      "completed": false
+      "completed": true
     },
     {
       "id": 3,
@@ -87,14 +87,14 @@
     },
     {
       "listId": 1,
-      "text": "test",
-      "completed": false,
+      "text": "test3",
+      "completed": true,
       "id": 6
     },
     {
       "listId": 1,
       "text": "qweqwe",
-      "completed": false,
+      "completed": true,
       "id": 7
     },
     {
@@ -106,13 +106,13 @@
     {
       "listId": 1,
       "text": "123",
-      "completed": false,
+      "completed": true,
       "id": 9
     },
     {
       "listId": 4,
-      "text": "Купить 1984!",
-      "completed": true,
+      "text": "Cisco DevNet",
+      "completed": false,
       "id": 10
     },
     {
@@ -155,18 +155,6 @@
       "completed": false,
       "listId": 6,
       "id": 21
-    },
-    {
-      "text": "test",
-      "completed": false,
-      "listId": 1,
-      "id": 22
-    },
-    {
-      "text": "wsqws",
-      "completed": false,
-      "listId": 4,
-      "id": 23
     },
     {
       "text": "11",
