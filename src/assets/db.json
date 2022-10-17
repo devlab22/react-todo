@@ -65,7 +65,7 @@
       "id": 1,
       "listId": 2,
       "text": "Lernen JavaScript",
-      "completed": true
+      "completed": false
     },
     {
       "id": 2,
