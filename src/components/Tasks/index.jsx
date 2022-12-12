@@ -27,11 +27,12 @@ export default function Tasks({ selectedId, lists = [], tasks = [], onEditTitle,
 
     return (
         <div className='tasks'>
+
             <h1 className='tasks__title' style={{color: selectedItem.hex}}>
                {title}
                {selectedItem && (<img src={editSvg} alt="edit" onClick={onEditTitle && (() => onEditTitle(selectedItem))} />)}
             </h1>
-
+                
             <div className='tasks__items'>
                 {items.length === 0 ? ( !withoutEmpty && selectedId && <h2>keine Aufgaben</h2>) :
 

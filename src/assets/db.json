@@ -87,12 +87,6 @@
     },
     {
       "listId": 1,
-      "text": "test",
-      "completed": false,
-      "id": 6
-    },
-    {
-      "listId": 1,
       "text": "qweqwe",
       "completed": false,
       "id": 7
@@ -155,12 +149,6 @@
       "completed": false,
       "listId": 6,
       "id": 21
-    },
-    {
-      "text": "test",
-      "completed": false,
-      "listId": 1,
-      "id": 22
     },
     {
       "text": "wsqws",

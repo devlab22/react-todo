@@ -101,6 +101,7 @@ function App() {
 
       data.color = folderColors.find(color => color.id === item.colorId).name;
       data.colorHex = folderColors.find(color => color.id === item.colorId).hex;
+      data.tasks = 0;
       setData(prev => [...prev, data]);
     }
     catch (err) {
@@ -269,6 +270,7 @@ function App() {
         selectedId={selectedId}
         colors={folderColors}
         onAddFolder={handleOnAddFolder} />
+
       <div className='todo__tasks'>
         <Routes>
 

@@ -11,9 +11,13 @@ function List({ items = [], onClickItem, onClickRemove, selectedId=null, isRemov
   let navigate = useNavigate();
 
   const handleOnClickItem = (id) => {
-
-    id === 0 ? navigate("/", {replace: true}) : navigate(`../lists/${id}`, { replace: true });
-    //onClickItem(id);
+    
+    if(id != null){
+      id === 0 ? navigate("/", {replace: true}) : navigate(`../lists/${id}`, { replace: true });
+    }else{
+      onClickItem(id);
+    }  
+    
   }
   return (
     <ul className="list">

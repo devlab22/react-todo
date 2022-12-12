@@ -6,12 +6,11 @@ import './AddButton.scss';
 import plusSvg from '../../assets/img/add.svg';
 import closeSvg from '../../assets/img/close.svg';
 
-function AddButtonList({ colors=[], onAddFolder }) {
+function AddButtonList({colors=[], onAddFolder }) {
 
     const [visible, setVisible] = useState(false);
     const [colorId, setColorId] = useState(null);
     const [inputValue, setInputValue] = useState('');
-
     
     useEffect(() => {
 
@@ -29,6 +28,7 @@ function AddButtonList({ colors=[], onAddFolder }) {
     ];
 
     const handleOnClick = () => {
+        console.log("set visible")
         setVisible(true)
     };
 
@@ -41,7 +41,7 @@ function AddButtonList({ colors=[], onAddFolder }) {
 
         const item = {
             name: inputValue,
-            colorId: colorId
+            colorId: colorId,
         }
 
         onAddFolder(item);
@@ -59,12 +59,13 @@ function AddButtonList({ colors=[], onAddFolder }) {
 
     return (
         <div className="add-list">
+           
             <List items={items} onClickItem={handleOnClick} />
-
+            
             {visible && (
                 <div className="add-list-popup">
                     <img src={closeSvg} alt="close" className="add-list-popup-close-btn" onClick={handleOnClose} />
-                    <input value={inputValue} className="field" type="text" placeholder="Bezeichnung" onChange={event => setInputValue(event.target.value)} ></input>
+                    <input autoFocus value={inputValue} className="field" type="text" placeholder="Bezeichnung" onChange={event => setInputValue(event.target.value)} ></input>
                     <div className="add-list-colors">
 
                         {colors.map(color =>
