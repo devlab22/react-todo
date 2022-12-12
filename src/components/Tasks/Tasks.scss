@@ -1,5 +1,8 @@
 .tasks {
 
+  a{
+    text-decoration: none;
+  }
   &:not(:last-of-type){
     margin-bottom: 40px;
   }
@@ -49,7 +52,6 @@
 
     &-row {
       display: flex;
-      align-items: center;
       margin-bottom: 15px;
 
       .task {
@@ -73,6 +75,7 @@
           opacity: 0.8;
         }
       }
+
     }
   }
 

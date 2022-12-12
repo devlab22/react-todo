@@ -6,7 +6,7 @@ import './Tasks.scss';
 import editSvg from '../../assets/img/edit.svg';
 import removeSvg from '../../assets/img/remove.svg';
 
-export default function Tasks({ selectedId, lists = [], tasks = [], onEditTitle, onDeleteTask, onEditTask, onAddTask, withoutEmpty=false }) {
+export default function Tasks({ selectedId, lists = [], tasks = [], onEditTitle, onDeleteTask, onEditTask, onCompleteTask, onAddTask, withoutEmpty = false }) {
 
     const selectedItem = selectedId >= 0 ? lists.find(item => item.id === selectedId) : null;
 
@@ -25,6 +25,11 @@ export default function Tasks({ selectedId, lists = [], tasks = [], onEditTitle,
         onAddTask(task);
     }
 
+    const handleOnChangeCheckbox = (event, taskId) => {
+        onCompleteTask(taskId, event.target.checked);
+    }
+
+
     return (
         <div className='tasks'>
 
@@ -32,9 +37,10 @@ export default function Tasks({ selectedId, lists = [], tasks = [], onEditTitle,
                {title}
                {selectedItem && (<img src={editSvg} alt="edit" onClick={onEditTitle && (() => onEditTitle(selectedItem))} />)}
             </h1>
-                
+            
+
             <div className='tasks__items'>
-                {items.length === 0 ? ( !withoutEmpty && selectedId && <h2>keine Aufgaben</h2>) :
+                {items.length === 0 ? (!withoutEmpty && selectedId && <h2>keine Aufgaben</h2>) :
 
                     items.map(item => (
 
@@ -42,7 +48,7 @@ export default function Tasks({ selectedId, lists = [], tasks = [], onEditTitle,
 
                             <div className="checkbox">
 
-                                <input id={`task-${item.id}`} type="checkbox" />
+                                <input id={`task-${item.id}`} type="checkbox" checked={item.completed} onChange={(event) => handleOnChangeCheckbox(event, item.id)} />
                                 <label htmlFor={`task-${item.id}`}>
                                     <svg
                                         width="11"
@@ -63,11 +69,12 @@ export default function Tasks({ selectedId, lists = [], tasks = [], onEditTitle,
                             <input readOnly className='task' type="text" value={item.text} onChange={() => { }} />
                             <img src={editSvg} alt="edit" onClick={onEditTask && (() => onEditTask(item))} />
                             <img src={removeSvg} alt="remove" onClick={onDeleteTask && (() => onDeleteTask(item))} />
+
                         </div>
                     )
 
                     )}
-                 { selectedId > 0 && <AddTaskForm onAddTask={handleOnAddTask}/>}
+                {selectedId > 0 && <AddTaskForm onAddTask={handleOnAddTask} />}
             </div>
         </div>
     )
