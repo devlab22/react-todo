@@ -6,7 +6,7 @@
     },
     {
       "id": 1,
-      "name": "Einkäufe",
+      "name": "Einkauf",
       "colorId": 5
     },
     {
@@ -38,46 +38,6 @@
       "name": "Tutorial ReactJS ToDo",
       "colorId": 7,
       "id": 7
-    },
-    {
-      "name": "react",
-      "colorId": 4,
-      "id": 8
-    },
-    {
-      "name": "test2",
-      "colorId": 1,
-      "id": 9
-    },
-    {
-      "name": "tz",
-      "colorId": 5,
-      "id": 10
-    },
-    {
-      "name": "re",
-      "colorId": 4,
-      "id": 11
-    },
-    {
-      "name": "1",
-      "colorId": 1,
-      "id": 12
-    },
-    {
-      "name": "3",
-      "colorId": 1,
-      "id": 13
-    },
-    {
-      "name": "3",
-      "colorId": 1,
-      "id": 14
-    },
-    {
-      "name": "d",
-      "colorId": 1,
-      "id": 15
     }
   ],
   "tasks": [
@@ -181,12 +141,6 @@
       "completed": false,
       "listId": 4,
       "id": 23
-    },
-    {
-      "text": "11",
-      "completed": false,
-      "listId": 9,
-      "id": 24
     }
   ],
   "colors": [

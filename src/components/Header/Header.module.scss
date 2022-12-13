@@ -1,0 +1,83 @@
+.header {
+    width: 98%;
+    height: 60px;
+    background-color: #282c34;
+    margin: 0 15px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .navbar__link {
+        margin: -25px 0 40px auto;
+        position: absolute;
+        text-decoration: none;
+        color: white;
+        font-size: 2rem;
+        font-weight: bold;
+
+        &:hover {
+            color: darken(white, 40%);
+        }
+
+        &__login {
+            right: 260px;
+        }
+
+        &__logout {
+            right: 130px;
+        }
+
+        &__about{
+            right: 20px;
+        }
+
+    }
+
+    a {
+        text-decoration: none;
+        color: white;
+    }
+
+    &__title__link {
+        margin-left: 15px;
+        font-size: 2rem;
+        position: relative;
+        font-weight: bold;
+        text-transform: uppercase;
+
+        &:hover {
+            color: darken(white, 40%);
+        }
+    }
+
+    &__title {
+        margin-right: 300px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        position: relative;
+    }
+
+    button {
+        right: 30px;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .form__btn {
+
+        margin: 10px 20px 5px 10px;
+
+
+        img {
+
+            opacity: .8;
+            cursor: pointer;
+            margin-right: 0px;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+}

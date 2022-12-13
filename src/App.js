@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Circles } from 'react-loader-spinner';
 import { Routes, Route, useLocation } from "react-router-dom";
 
-import { Sidebar, Tasks } from './components';
+import { Sidebar, Tasks, Header } from './components';
 
 import listSvg from './assets/img/list.svg';
 
@@ -16,12 +16,13 @@ function App() {
   const [selectedId, setSelectedId] = useState(null);
   const [folderColors, setFolderColors] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
   let location = useLocation();
 
   useEffect(() => {
 
     async function readData() {
-     
+
       setIsLoading(true)
       try {
 
@@ -58,7 +59,7 @@ function App() {
       catch (err) {
         console.log(err);
       }
-      finally{
+      finally {
         setIsLoading(false);
       }
 
@@ -239,25 +240,25 @@ function App() {
 
   const handleOnCompleteTask = async (taskId, completed) => {
 
-    try{
+    try {
 
-     const {data} = await axios.patch(`/tasks/${taskId}`, {
+      const { data } = await axios.patch(`/tasks/${taskId}`, {
         completed: completed
       });
 
       setTasks(prev => prev.map(item => {
 
-          if(item.id === taskId){
-            item.completed = data.completed
-          }
+        if (item.id === taskId) {
+          item.completed = data.completed
+        }
 
-          return item;
+        return item;
       }
-       
+
       ))
 
     }
-    catch(err){
+    catch (err) {
 
     }
   }
@@ -269,76 +270,82 @@ function App() {
 
   }, [data, location, location.pathname])
 
-  if (isLoading){
+  if (isLoading) {
 
-    return(
+    return (
       <div className='loading-container'>
-        <Circles 
-          color="#00BFFF" 
-          height={80} 
-          width={80}/>
+        <Circles
+          color="#00BFFF"
+          height={80}
+          width={80} />
       </div>
     )
 
-  }else{
+  } else {
 
-  return (
-   
-    <div className="todo">
-       
-      <Sidebar
-        key={1}
-        items={data}
-        onClickItem={handleOnClickItem}
-        onClickRemove={handleOnRemove}
-        selectedId={selectedId}
-        colors={folderColors}
-        onAddFolder={handleOnAddFolder} />
+    return (
 
-      <div className='todo__tasks'>
-        <Routes>
+      <div className='App'>
 
-          <Route exact path='/' element={
-            data && data.map(item => (
+        <Header setCurrentPath={handleOnClickItem} />
 
-              item.id > 0 && (
+        <div className="todo">
+
+          <Sidebar
+            key={1}
+            items={data}
+            onClickItem={handleOnClickItem}
+            onClickRemove={handleOnRemove}
+            selectedId={selectedId}
+            colors={folderColors}
+            onAddFolder={handleOnAddFolder} />
+
+          <div className='todo__tasks'>
+            <Routes>
+
+              <Route exact path='/' element={
+                data && data.map(item => (
+
+                  item.id > 0 && (
+                    <Tasks
+                      key={item.id}
+                      selectedId={item.id}
+                      lists={data}
+                      tasks={tasks}
+                      withoutEmpty={true}
+                      onEditTitle={handleOnEditTitle}
+                      onEditTask={handleOnEditTask}
+                      onDeleteTask={handleOnDeleteTask}
+                      onAddTask={handleOnAddTask}
+                      onCompleteTask={handleOnCompleteTask}
+                    />
+                  )))
+              }>
+
+              </Route>
+              <Route exact path='/lists/:id' element={
+
                 <Tasks
-                  key={item.id}
-                  selectedId={item.id}
+                  selectedId={selectedId}
                   lists={data}
                   tasks={tasks}
-                  withoutEmpty={true}
                   onEditTitle={handleOnEditTitle}
                   onEditTask={handleOnEditTask}
                   onDeleteTask={handleOnDeleteTask}
                   onAddTask={handleOnAddTask}
                   onCompleteTask={handleOnCompleteTask}
-                  />  
-              )))
-          }>
+                />
+              }>
+              </Route>
+            </Routes>
 
-          </Route>
-          <Route exact path='/lists/:id' element={
+          </div>
 
-            <Tasks
-              selectedId={selectedId}
-              lists={data}
-              tasks={tasks}
-              onEditTitle={handleOnEditTitle}
-              onEditTask={handleOnEditTask}
-              onDeleteTask={handleOnDeleteTask}
-              onAddTask={handleOnAddTask} 
-              onCompleteTask={handleOnCompleteTask}
-              />
-          }>
-          </Route>
-        </Routes>
+        </div>
 
       </div>
-      
-    </div>
-        );
-}
+    );
+  }
 }
 
 export default App;
