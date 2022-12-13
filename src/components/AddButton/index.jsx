@@ -28,8 +28,7 @@ function AddButtonList({colors=[], onAddFolder }) {
     ];
 
     const handleOnClick = () => {
-        console.log("set visible")
-        setVisible(true)
+        setVisible(true);
     };
 
     const handleOnAddFolder = () => {

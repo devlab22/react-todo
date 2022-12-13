@@ -4,10 +4,9 @@
   height: calc(100% - 120px);
   border-right: 1px solid #f1f1f1;
   padding: 60px 20px;
+  overflow: auto;
 
   .list {
-
-   
 
     .mb30 {
       margin-bottom: 30px;
@@ -65,7 +64,7 @@
     }
 
     .add {
-      margin-top: 30px;
+      margin-bottom: 30px;
       opacity: 0.6;
 
       &:hover {
