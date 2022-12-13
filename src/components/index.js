@@ -5,3 +5,4 @@ export { default as Badge } from './Badge';
 export { default as List } from './Sidebar/List.jsx';
 export { default as AddTaskForm } from './Tasks/AddTaskForm.jsx';
 export {default as Header} from './Header';
+export {default as EditPopup} from './EditPopup';

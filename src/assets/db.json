@@ -2,42 +2,62 @@
   "lists": [
     {
       "id": 0,
-      "name": "Alle Aufgaben"
+      "name": "Alle Aufgaben",
+      "seqnr": 0
     },
     {
       "id": 1,
       "name": "Einkauf",
-      "colorId": 5
+      "colorId": 5,
+      "seqnr": 8
     },
     {
       "id": 2,
       "name": "Frontend",
-      "colorId": 4
+      "colorId": 4,
+      "seqnr": 2
     },
     {
       "id": 3,
       "name": "Filme und Serials",
-      "colorId": 3
+      "colorId": 3,
+      "seqnr": 5
     },
     {
       "id": 4,
       "name": "Bücher",
-      "colorId": 2
+      "colorId": 2,
+      "seqnr": 9
     },
     {
       "id": 5,
       "name": "Private",
-      "colorId": 1
+      "colorId": 1,
+      "seqnr": 6
     },
     {
       "name": "Sport",
       "colorId": 3,
-      "id": 6
+      "id": 6,
+      "seqnr": 6
     },
     {
       "name": "Tutorial ReactJS ToDo",
       "colorId": 7,
-      "id": 7
+      "id": 7,
+      "seqnr": 7
+    },
+    {
+      "name": "Backend",
+      "colorId": 6,
+      "id": 8,
+      "seqnr": 3
+    },
+    {
+      "name": "new",
+      "colorId": 9,
+      "seqnr": "10",
+      "id": 9
     }
   ],
   "tasks": [
@@ -141,6 +161,24 @@
       "completed": false,
       "listId": 4,
       "id": 23
+    },
+    {
+      "text": "Lernen CSS",
+      "completed": false,
+      "listId": 2,
+      "id": 24
+    },
+    {
+      "text": "Python",
+      "completed": false,
+      "listId": 8,
+      "id": 25
+    },
+    {
+      "text": "Flask",
+      "completed": false,
+      "listId": 8,
+      "id": 26
     }
   ],
   "colors": [
@@ -188,6 +226,14 @@
       "id": 9,
       "hex": "#ffff00",
       "name": "yellow"
+    }
+  ],
+  "users": [
+    {
+      "login": "admin"
+    },
+    {
+      "login": "usr1"
     }
   ]
 }

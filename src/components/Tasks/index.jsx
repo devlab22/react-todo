@@ -6,15 +6,17 @@ import './Tasks.scss';
 import editSvg from '../../assets/img/edit.svg';
 import removeSvg from '../../assets/img/remove.svg';
 
-export default function Tasks({ selectedId, lists = [], tasks = [], onEditTitle, onDeleteTask, onEditTask, onCompleteTask, onAddTask, withoutEmpty = false }) {
+export default function Tasks({ selectedId, lists = [], tasks = [], onEditTitle, onEditSeqnr, onDeleteTask, onEditTask, onCompleteTask, onAddTask, withoutEmpty = false }) {
 
     const selectedItem = selectedId >= 0 ? lists.find(item => item.id === selectedId) : null;
 
     let title = '';
+    let seqnr = 0;
     let items = [];
 
     if (selectedItem) {
         title = selectedItem.name;
+        seqnr = selectedItem.seqnr;
         selectedItem.id === 0 ? items = tasks : items = tasks.filter(item => item.listId === selectedId);
     }
 
@@ -34,8 +36,16 @@ export default function Tasks({ selectedId, lists = [], tasks = [], onEditTitle,
         <div className='tasks'>
 
             <h1 className='tasks__title' style={{color: selectedItem.hex}}>
-               {title}
-               {selectedItem && (<img src={editSvg} alt="edit" onClick={onEditTitle && (() => onEditTitle(selectedItem))} />)}
+              {seqnr} {title}
+               {selectedItem && (
+
+                    <span>
+                         <img src={editSvg} alt="edit" title="edit name" onClick={onEditTitle && (() => onEditTitle(selectedItem))} />
+                         <img src={editSvg} alt="edit" title="edit seqnr" onClick={onEditSeqnr && (() => onEditSeqnr(selectedItem))} />
+                    </span>
+                   
+                    
+                    )}
             </h1>
             
 

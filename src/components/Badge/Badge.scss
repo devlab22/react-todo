@@ -2,47 +2,56 @@
     display: inline-block;
     width: 10px;
     height: 10px;
-    border-radius: 30px;
+    border-radius: 50%;
     position: static;
-    left: 5px;
+    border: 2px solid transparent;
 
     .active{
         border: 1px solid gray;
     }
 
-    &-green {
+    &__green {
       background-color: #42B883;
     }
 
-    &-blue {
+    &__blue {
       background-color: #64C4ED;
     }
 
-    &-pink {
+    &__pink {
       background-color: #ffbbcc;
     }
 
-    &-red{
+    &__red{
       background-color: #FF6464;
     }
 
-    &-yellow{
+    &__yellow{
       background-color: yellow;
     }
     
-    &-black{
+    &__black{
         background-color: #110133;
     }
 
-    &-purple{
+    &__purple{
         background-color: #C355F5;
     }
 
-    &-lime{
+    &__lime{
         background-color: #B6E6BD;
     }
 
-    &-grey{
+    &__grey{
         background-color: #C9D1D3;
     }
+
+    &.active {
+      border: 2px solid #525252;
+    }
+    
+    &.pointer{
+      cursor: pointer;
+    }
+
   }

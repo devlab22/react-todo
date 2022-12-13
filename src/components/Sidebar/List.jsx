@@ -26,7 +26,7 @@ function List({ items = [], onClickItem, onClickRemove, selectedId=null, isRemov
          
           <li key={index} className={item.clsname + ' ' + ( selectedId === item.id && 'active' ) } onClick={() => handleOnClickItem(item.id)}>
             <i>
-              {item.icon ? (<img src={item.icon} alt="icon" ></img>) : <Badge color={item.color} hex={item.colorHex} />}
+              {item.icon ? (<img src={item.icon} alt="icon" ></img>) : <Badge color={item.color} width={8} hex={item.colorHex} />}
             </i>
             <span>
               {item.name}

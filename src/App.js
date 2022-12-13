@@ -13,9 +13,10 @@ function App() {
 
   const [data, setData] = useState([]);
   const [tasks, setTasks] = useState([]);
-  const [selectedId, setSelectedId] = useState(null);
+  const [selectedId, setSelectedId] = useState(0);
   const [folderColors, setFolderColors] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [reload, setReload] = useState(false);
 
   let location = useLocation();
 
@@ -51,8 +52,10 @@ function App() {
           return item;
         })
 
+        lists.sort((a,b) => a.seqnr - b.seqnr);
+
         setData(lists);
-        setTasks(respTasks.data)
+        setTasks(respTasks.data);
         setFolderColors(respColors.data);
 
       }
@@ -67,7 +70,7 @@ function App() {
 
     readData();
 
-  }, []);
+  }, [reload]);
 
   const handleOnRemove = async (event, id) => {
     event.stopPropagation();
@@ -97,7 +100,8 @@ function App() {
     try {
       const { data } = await axios.post('/lists', {
         name: item.name,
-        colorId: item.colorId
+        colorId: item.colorId,
+        seqnr: item.seqnr
       });
 
       data.color = folderColors.find(color => color.id === item.colorId).name;
@@ -107,6 +111,53 @@ function App() {
     }
     catch (err) {
       alert(err);
+    }
+
+  }
+
+  const handleOnEditFolderSeqnr = async (item) => {
+
+    if (!item) {
+      return
+    }
+
+    const newSeqnr = parseInt(window.prompt("Enter a seqnr", item.seqnr), 10)
+
+    if (!newSeqnr) {
+      return
+    }
+
+    if(newSeqnr > 0){
+
+        if (newSeqnr === item.seqnr){
+          return
+        }
+
+        try {
+
+          await axios.patch(`/lists/${item.id}`, {
+            seqnr: newSeqnr,
+          });
+    
+          const newList = data.map(curr => {
+    
+            if (curr.id === item.id) {
+              curr.seqnr = newSeqnr;
+            }
+    
+            return curr;
+          })
+    
+          setData(newList);
+          setReload(!reload);
+
+        }
+        catch (err) {
+          alert(err);
+        }
+
+    }else{
+      window.alert("Enter a Number")
     }
 
   }
@@ -126,7 +177,7 @@ function App() {
     try {
 
       await axios.patch(`/lists/${item.id}`, {
-        name: newTitle
+        name: newTitle,
       });
 
       const newList = data.map(curr => {
@@ -314,6 +365,7 @@ function App() {
                       tasks={tasks}
                       withoutEmpty={true}
                       onEditTitle={handleOnEditTitle}
+                      onEditSeqnr={handleOnEditFolderSeqnr}
                       onEditTask={handleOnEditTask}
                       onDeleteTask={handleOnDeleteTask}
                       onAddTask={handleOnAddTask}
@@ -330,6 +382,7 @@ function App() {
                   lists={data}
                   tasks={tasks}
                   onEditTitle={handleOnEditTitle}
+                  onEditSeqnr={handleOnEditFolderSeqnr}
                   onEditTask={handleOnEditTask}
                   onDeleteTask={handleOnDeleteTask}
                   onAddTask={handleOnAddTask}
