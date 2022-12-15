@@ -24,6 +24,7 @@ body {
 .App{
 
 }
+
 .todo {
   display: flex;
   position: absolute;
@@ -42,7 +43,7 @@ body {
     overflow: auto;
 
     h1{
-      color: #64c4ed;
+     // color: #64c4ed;
       line-height: 39px;
       font-size: 2rem;
       font-weight: bold;
@@ -55,7 +56,7 @@ body {
 
 }
 
-.field{
+/* .field{
   background: #ffffff;
   border: 1px solid #efefef;
   box-sizing: border-box;
@@ -68,39 +69,5 @@ body {
   }
 
   
-}
-
-.button{
-  border-radius: 4px;
-  background: #4dd599;
-  color: #ffffff;
-  border: 0;
-  padding: 10px 20px;
-  cursor: pointer;
-  
-  &:disabled{
-    background: #444444;
-  }
-  
-  &:hover{
-    background: darken(#4dd599, 6%);
-  }
-
-  &:active{
-    background: darken(#4dd599, 10%);
-  }
-
-  &-grey{
-    background: #f4f6f8;
-    color: #444444;
-
-    &:hover{
-      background: darken(#f4f6f8, 4%);
-    }
-
-    &:active{
-      background: darken(#f4f6f8, 10%);
-    }
-  }
-}
+} */
 

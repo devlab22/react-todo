@@ -1,0 +1,55 @@
+.myBtn__base{
+    padding: 10px 20px;
+    border: 0;
+    margin: 0;
+    width: 100%;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.myBtn__teal {
+    color: teal;
+    background: transparent;
+
+    &:hover {
+        background-color: darken(white, 5%);
+    }
+
+    &:active {
+        background-color: darken(white, 20%);
+    }
+
+}
+
+.myBtn__green {
+    background: #4dd599;
+    color: #ffffff;
+
+    &:disabled {
+        background: #444444;
+    }
+
+    &:hover {
+        background: darken(#4dd599, 6%);
+    }
+
+    &:active {
+        background: darken(#4dd599, 10%);
+    }
+
+
+}
+
+.myBtn__grey {
+    background: #f4f6f8;
+    color: #444444;
+
+    &:hover {
+        background: darken(#f4f6f8, 4%);
+    }
+
+    &:active {
+        background: darken(#f4f6f8, 10%);
+    }
+}

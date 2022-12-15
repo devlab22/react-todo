@@ -12,6 +12,13 @@ export default function Header({ setCurrentPath }) {
                 </div>
             </Link>
 
+            <div className={styles.form__btn}>
+                <Link to='/about'>
+                    <div className={`${styles.navbar__link__about} ${styles.navbar__link}`}>
+                        About
+                    </div>
+                </Link>
+            </div>
 
         </div>
     )

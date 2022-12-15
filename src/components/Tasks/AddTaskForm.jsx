@@ -1,39 +1,49 @@
 import React, { useState } from 'react'
-
+import { Circles } from 'react-loader-spinner';
 import './Tasks.scss';
 import addSvg from '../../assets/img/add.svg';
-//import closeSvg from '../../assets/img/close.svg';
+import { EditPopup } from '..';
 
 export default function AddTaskForm({ onAddTask }) {
 
   const [visible, setVisible] = useState(false);
-  const [newTask, setNewTask] = useState('');
   const [isSending, setIsSending] = useState(false);
 
-  const handleOnAddTask = () => {
+  const handleOnAddTask = async (item) => {
 
-    if (!newTask) {
+    if (!item) {
       alert('text ist leer');
       return;
     }
 
     const task = {
-      text: newTask,
-      completed: false
+      text: item.name,
+      completed: false,
+      seqnr: item.seqnr
     }
 
+     
+    console.log(task)
+  
     setIsSending(true);
-    onAddTask(task);
+    await onAddTask(task);
     setIsSending(false);
-    handleOnClose();
+    setVisible(false);
     
   }
 
-  const handleOnClose = () => {
-    setNewTask('');
-    setVisible(false);
-  }
+  if (isSending) {
 
+    return (
+      <div className='loading-container'>
+        <Circles
+          color="#00BFFF"
+          height={80}
+          width={80} />
+      </div>
+    )
+
+  }
 
   return (
     <div className="tasks-form">
@@ -44,18 +54,11 @@ export default function AddTaskForm({ onAddTask }) {
           <span>Neue Aufgabe</span>
         </div>)
         : (
-          <div className="tasks-form-new-popup">
-            <input className='field' placeholder='Bezeichnung' type="text" value={newTask} onChange={(e) => setNewTask(e.target.value)} />
-            {/* <img src={closeSvg} alt="close" className='tasks-form-new-popup-close-btn' onClick={handleOnClose} /> */}
-
-            <div className="tasks-form-new-popup-block">
-              <button disabled={isSending} className='button' onClick={handleOnAddTask}>{isSending ? '...' : 'Hinzufügen'}</button>
-              <button className='button button-grey' onClick={handleOnClose}>Abbrechen</button>
-            </div>
-
-          </div>
+          <EditPopup 
+            style={{height: 160}} 
+            onClose={() => setVisible(false)} 
+            onValueChanged={handleOnAddTask}/>
         )}
-
 
     </div>
   )

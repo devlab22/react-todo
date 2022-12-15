@@ -1,21 +1,30 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate, useParams } from "react-router-dom";
 
 import { Badge }  from "../../components";
 
 import './Sidebar.scss';
 import removeIcon from '../../assets/img/remove.svg';
 
-function List({ items = [], onClickItem, onClickRemove, selectedId=null, isRemovable=false}) {
-  let navigate = useNavigate();
+function List({ items = [], onClickItem, onClickRemove, selectedId=null, colors=[], isRemovable=false}) {
+
+  const navigate = useNavigate();
+  const params = useParams();
+
+ // console.log(params)
+  if(params.id){
+    selectedId = params.id
+  }
+  //console.log(items)
+ // console.log(selectedId)
 
   const handleOnClickItem = (id) => {
     
     if(id != null){
-      id === 0 ? navigate("/", {replace: true}) : navigate(`../lists/${id}`, { replace: true });
+      id === 0 ? navigate("/") : navigate(`/lists/${id}`);
     }else{
-      onClickItem(id);
+      //onClickItem(id);
+      navigate(`/list/${null}`);
     }  
     
   }
@@ -26,7 +35,7 @@ function List({ items = [], onClickItem, onClickRemove, selectedId=null, isRemov
          
           <li key={index} className={item.clsname + ' ' + ( selectedId === item.id && 'active' ) } onClick={() => handleOnClickItem(item.id)}>
             <i>
-              {item.icon ? (<img src={item.icon} alt="icon" ></img>) : <Badge color={item.color} width={8} hex={item.colorHex} />}
+              {item.icon ? (<img src={item.icon} alt="icon" ></img>) : <Badge width={8} hex={colors.find(color => color.id === item.colorId).hex} />}
             </i>
             <span>
               {item.name}

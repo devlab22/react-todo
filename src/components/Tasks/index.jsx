@@ -1,12 +1,24 @@
-import React from 'react'
-
-import { AddTaskForm } from '../../components';
+import React, { useState } from 'react'
+import { useParams, useNavigate } from 'react-router-dom';
+import { AddTaskForm, EditPopup, CheckBoxCircle, Toggle } from '../../components';
 
 import './Tasks.scss';
 import editSvg from '../../assets/img/edit.svg';
 import removeSvg from '../../assets/img/remove.svg';
 
-export default function Tasks({ selectedId, lists = [], tasks = [], onEditTitle, onEditSeqnr, onDeleteTask, onEditTask, onCompleteTask, onAddTask, withoutEmpty = false }) {
+export default function Tasks({ selectedId, lists = [], colors = [], tasks = [], onEditFolder, onDeleteTask, onEditTask, onCompleteTask, onAddTask, withoutEmpty = false }) {
+
+    const [editDia, setEditDia] = useState(false);
+    const [editTaskDia, setEditTaskDia] = useState(false);
+    const [editTask, setEditTask] = useState({});
+
+    const params = useParams();
+    const navigate = useNavigate();
+   // console.log(params)
+
+    if(!selectedId){
+        selectedId = Number(params.id)
+    }
 
     const selectedItem = selectedId >= 0 ? lists.find(item => item.id === selectedId) : null;
 
@@ -17,7 +29,7 @@ export default function Tasks({ selectedId, lists = [], tasks = [], onEditTitle,
     if (selectedItem) {
         title = selectedItem.name;
         seqnr = selectedItem.seqnr;
-        selectedItem.id === 0 ? items = tasks : items = tasks.filter(item => item.listId === selectedId);
+        selectedItem.id === 0 ? items = tasks : items = tasks.filter(item => item.listId === selectedId).sort((a, b) => a.seqnr - b.seqnr);
     }
 
     const handleOnAddTask = (task) => {
@@ -27,27 +39,78 @@ export default function Tasks({ selectedId, lists = [], tasks = [], onEditTitle,
         onAddTask(task);
     }
 
-    const handleOnChangeCheckbox = (event, taskId) => {
-        onCompleteTask(taskId, event.target.checked);
+    const handleOnChangeCheckbox = (taskId, checked) => {
+        onCompleteTask(taskId, checked);
+    }
+
+    const handleOnFolderChanged = async (item) => {
+
+        onEditFolder(item);
+        setEditDia(false);
+    }
+
+    const handleOnEditTask = (task) => {
+
+        navigate(`/task/${task.id}`)
+       /*  task.name = task.text;
+        setEditTask(task)
+        setEditTaskDia(true); */
+    }
+
+    const handleOnTaskChanged = async (task) => {
+
+
+        const updateTask = {
+            id: task.id,
+            text: task.name,
+            seqnr: task.seqnr
+        }
+
+        console.log(updateTask)
+
+        onEditTask(updateTask);
+        setEditTaskDia(false);
     }
 
 
     return (
         <div className='tasks'>
 
-            <h1 className='tasks__title' style={{color: selectedItem.hex}}>
-              {seqnr} {title}
-               {selectedItem && (
+            <h1 className='tasks__title'
+                style={{ color: colors.find(color => color.id === selectedItem.colorId).hex }}
+            >
+                {seqnr} {title}
+                {selectedItem && (
 
                     <span>
-                         <img src={editSvg} alt="edit" title="edit name" onClick={onEditTitle && (() => onEditTitle(selectedItem))} />
-                         <img src={editSvg} alt="edit" title="edit seqnr" onClick={onEditSeqnr && (() => onEditSeqnr(selectedItem))} />
+                        <img src={editSvg} alt="edit" title="edit name" onClick={() => navigate(`/list/${selectedItem.id}`)} />
                     </span>
-                   
-                    
-                    )}
+
+                )}
             </h1>
-            
+
+            {editDia &&
+                <EditPopup
+                    colors={colors}
+                    selectedItem={selectedItem}
+                    onValueChanged={handleOnFolderChanged}
+                    btnTitle="Ändern"
+                    onClose={() => setEditDia(false)}
+                />
+
+            }
+
+            {editTaskDia &&
+                <EditPopup
+                    style={{ height: 160 }}
+                    selectedItem={editTask}
+                    onValueChanged={handleOnTaskChanged}
+                    btnTitle="Ändern"
+                    onClose={() => setEditTaskDia(false)}
+                />
+
+            }
+
 
             <div className='tasks__items'>
                 {items.length === 0 ? (!withoutEmpty && selectedId && <h2>keine Aufgaben</h2>) :
@@ -56,34 +119,16 @@ export default function Tasks({ selectedId, lists = [], tasks = [], onEditTitle,
 
                         <div key={item.id} className="tasks__items-row">
 
-                            <div className="checkbox">
+                            <CheckBoxCircle id={item.id} label={item.text} completed={item.completed} onClick={handleOnChangeCheckbox} />
 
-                                <input id={`task-${item.id}`} type="checkbox" checked={item.completed} onChange={(event) => handleOnChangeCheckbox(event, item.id)} />
-                                <label htmlFor={`task-${item.id}`}>
-                                    <svg
-                                        width="11"
-                                        height="8"
-                                        viewBox="0 0 11 8"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M9.29999 1.20001L3.79999 6.70001L1.29999 4.20001"
-                                            stroke="#000"
-                                            strokeWidth="1.5"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round" />
-                                    </svg>
-                                </label>
-
-                            </div>
-
-                            <input readOnly className='task' type="text" value={item.text} onChange={() => { }} />
-                            <img src={editSvg} alt="edit" onClick={onEditTask && (() => onEditTask(item))} />
+                            <img src={editSvg} alt="edit" onClick={onEditTask && (() => handleOnEditTask(item))} />
                             <img src={removeSvg} alt="remove" onClick={onDeleteTask && (() => onDeleteTask(item))} />
 
                         </div>
-                    )
+                    ))}
 
-                    )}
+                {/* <Toggle label="Python" style={{fontWeight: "bold"}} onClick={(checked) => console.log('toogle', checked)}/> */}
+
                 {selectedId > 0 && <AddTaskForm onAddTask={handleOnAddTask} />}
             </div>
         </div>

@@ -4,6 +4,7 @@ import { Circles } from 'react-loader-spinner';
 import { Routes, Route, useLocation } from "react-router-dom";
 
 import { Sidebar, Tasks, Header } from './components';
+import { About, Task, Folder } from './pages';
 
 import listSvg from './assets/img/list.svg';
 
@@ -16,7 +17,6 @@ function App() {
   const [selectedId, setSelectedId] = useState(0);
   const [folderColors, setFolderColors] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [reload, setReload] = useState(false);
 
   let location = useLocation();
 
@@ -35,11 +35,6 @@ function App() {
 
         const lists = respLists.data.map(item => {
 
-          if (item.colorId) {
-            item.color = respColors.data.find(color => color.id === item.colorId).name;
-            item.hex = respColors.data.find(color => color.id === item.colorId).hex;
-          }
-
           if (item.id === 0) {
             item.icon = listSvg;
             item.clsname = "mb30";
@@ -52,7 +47,7 @@ function App() {
           return item;
         })
 
-        lists.sort((a,b) => a.seqnr - b.seqnr);
+        lists.sort((a, b) => a.seqnr - b.seqnr);
 
         setData(lists);
         setTasks(respTasks.data);
@@ -70,7 +65,7 @@ function App() {
 
     readData();
 
-  }, [reload]);
+  }, []);
 
   const handleOnRemove = async (event, id) => {
     event.stopPropagation();
@@ -104,92 +99,9 @@ function App() {
         seqnr: item.seqnr
       });
 
-      data.color = folderColors.find(color => color.id === item.colorId).name;
-      data.colorHex = folderColors.find(color => color.id === item.colorId).hex;
       data.tasks = 0;
+
       setData(prev => [...prev, data]);
-    }
-    catch (err) {
-      alert(err);
-    }
-
-  }
-
-  const handleOnEditFolderSeqnr = async (item) => {
-
-    if (!item) {
-      return
-    }
-
-    const newSeqnr = parseInt(window.prompt("Enter a seqnr", item.seqnr), 10)
-
-    if (!newSeqnr) {
-      return
-    }
-
-    if(newSeqnr > 0){
-
-        if (newSeqnr === item.seqnr){
-          return
-        }
-
-        try {
-
-          await axios.patch(`/lists/${item.id}`, {
-            seqnr: newSeqnr,
-          });
-    
-          const newList = data.map(curr => {
-    
-            if (curr.id === item.id) {
-              curr.seqnr = newSeqnr;
-            }
-    
-            return curr;
-          })
-    
-          setData(newList);
-          setReload(!reload);
-
-        }
-        catch (err) {
-          alert(err);
-        }
-
-    }else{
-      window.alert("Enter a Number")
-    }
-
-  }
-
-  const handleOnEditTitle = async (item) => {
-
-    if (!item) {
-      return
-    }
-
-    const newTitle = window.prompt('Bezeichnung', item.name);
-
-    if (!newTitle) {
-      return
-    }
-
-    try {
-
-      await axios.patch(`/lists/${item.id}`, {
-        name: newTitle,
-      });
-
-      const newList = data.map(curr => {
-
-        if (curr.id === item.id) {
-          curr.name = newTitle;
-        }
-
-        return curr;
-      })
-
-      setData(newList);
     }
     catch (err) {
       alert(err);
@@ -199,30 +111,24 @@ function App() {
 
   const handleOnEditTask = async (task) => {
 
-    if (!task) {
-      return
-    }
-    const newTitle = window.prompt('Bezeichnung', task.text);
-
-    if (!newTitle) {
-      return
-    }
-
     try {
 
       await axios.patch(`/tasks/${task.id}`, {
-        text: newTitle
+        text: task.text,
+        seqnr: task.seqnr
       });
 
       const newList = tasks.map(curr => {
 
         if (curr.id === task.id) {
-          curr.text = newTitle;
+          curr.text = task.text;
+          curr.seqnr = task.seqnr;
         }
 
         return curr;
       })
 
+      newList.sort((a, b) => a.seqnr - b.seqnr);
       setTasks(newList);
     }
     catch (err) {
@@ -314,10 +220,46 @@ function App() {
     }
   }
 
+  const handleOnEditFolder = async (item) => {
+
+    if (!item) {
+      return
+    }
+
+    try {
+
+      await axios.patch(`/lists/${item.id}`, {
+        name: item.name,
+        colorId: item.colorId,
+        seqnr: item.seqnr
+      });
+
+      const newList = data.map(curr => {
+
+        if (curr.id === item.id) {
+          curr.name = item.name;
+          curr.colorId = item.colorId;
+          curr.seqnr = item.seqnr;
+        }
+
+        return curr;
+      })
+
+      newList.sort((a, b) => a.seqnr - b.seqnr);
+      setData(newList);
+
+    }
+    catch (err) {
+      alert(err);
+    }
+  }
+
   useEffect(() => {
 
     const itemId = location.pathname.split("lists/")[1];
-    itemId ? setSelectedId(Number(itemId)) : setSelectedId(0);
+    if (itemId) {
+      itemId ? setSelectedId(Number(itemId)) : setSelectedId(0);
+    }
 
   }, [data, location, location.pathname])
 
@@ -363,13 +305,13 @@ function App() {
                       selectedId={item.id}
                       lists={data}
                       tasks={tasks}
+                      colors={folderColors}
                       withoutEmpty={true}
-                      onEditTitle={handleOnEditTitle}
-                      onEditSeqnr={handleOnEditFolderSeqnr}
                       onEditTask={handleOnEditTask}
                       onDeleteTask={handleOnDeleteTask}
                       onAddTask={handleOnAddTask}
                       onCompleteTask={handleOnCompleteTask}
+                      onEditFolder={handleOnEditFolder}
                     />
                   )))
               }>
@@ -378,11 +320,11 @@ function App() {
               <Route exact path='/lists/:id' element={
 
                 <Tasks
-                  selectedId={selectedId}
+                  // selectedId={selectedId}
                   lists={data}
                   tasks={tasks}
-                  onEditTitle={handleOnEditTitle}
-                  onEditSeqnr={handleOnEditFolderSeqnr}
+                  colors={folderColors}
+                  onEditFolder={handleOnEditFolder}
                   onEditTask={handleOnEditTask}
                   onDeleteTask={handleOnDeleteTask}
                   onAddTask={handleOnAddTask}
@@ -390,6 +332,29 @@ function App() {
                 />
               }>
               </Route>
+
+              <Route exact path='/task/:id' element={
+                <Task
+                  tasks={tasks}
+                  onAdd={handleOnAddTask}
+                  onEdit={handleOnEditTask}
+                />
+              }></Route>
+
+              <Route exact path='/list/:id' element={
+                <Folder 
+                  items={data} 
+                  colors={folderColors}
+                  onEdit={handleOnEditFolder}
+                  onAdd={handleOnAddFolder}
+                  />
+              }>
+
+              </Route>
+              <Route exact path='/about' element={
+                <About />
+              } />
+
             </Routes>
 
           </div>
