@@ -1,6 +1,49 @@
-.page{
-    
-    h1{
-        
+.page {
+
+    text-align: center;
+
+    h1 {
+        font-size: 2rem !important;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: skyblue;
     }
+
+    &__container {
+
+        border: 2px solid #f4f6f8;
+        padding: 40px;
+        margin: 10% 30%;
+        height: auto;
+        width: 405px;
+        box-sizing: border-box;
+        border-radius: 20px;
+        transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+
+        &:hover {
+            box-shadow: 0 1.5rem 2rem rgba(0, 0, 0, 0.076);
+            transform: translateY(-0.5rem);
+        }
+        
+        p {
+            font-size: 1.5rem;
+            margin-top: 10px;
+        }
+
+        ul{
+            list-style-type: circle;
+            text-align: left;
+            list-style-position: inside;
+
+            
+            li{
+                font-size: 1.5rem;
+                padding: 5px;
+            }
+        }
+    }
+
+
+
+
 }

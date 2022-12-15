@@ -21,7 +21,7 @@ function List({ items = [], onClickItem, onClickRemove, selectedId=null, colors=
   const handleOnClickItem = (id) => {
     
     if(id != null){
-      id === 0 ? navigate("/") : navigate(`/lists/${id}`);
+      id === 0 ? navigate("/lists") : navigate(`/lists/${id}`);
     }else{
       //onClickItem(id);
       navigate(`/list/${null}`);

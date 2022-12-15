@@ -4,7 +4,7 @@ import { Circles } from 'react-loader-spinner';
 import { Routes, Route, useLocation } from "react-router-dom";
 
 import { Sidebar, Tasks, Header } from './components';
-import { About, Task, Folder } from './pages';
+import { About, Task, Folder, Home } from './pages';
 
 import listSvg from './assets/img/list.svg';
 
@@ -297,6 +297,11 @@ function App() {
             <Routes>
 
               <Route exact path='/' element={
+                <Home/>
+              }>
+
+              </Route>
+              <Route exact path='/lists' element={
                 data && data.map(item => (
 
                   item.id > 0 && (

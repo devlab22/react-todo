@@ -1,5 +1,5 @@
 .header {
-    width: 98%;
+    width: 98.2%;
     height: 60px;
     background-color: #282c34;
     margin: 0 15px;
@@ -8,6 +8,8 @@
     align-items: center;
     justify-content: space-between;
     text-transform: uppercase;
+    border-bottom-right-radius: 7px;
+    border-bottom-left-radius: 7px;
 
     .navbar__link {
         margin: -25px 0 40px auto;
