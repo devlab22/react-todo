@@ -10,8 +10,10 @@
       padding: 18px;
       box-sizing: border-box;
       position: relative;
-      left: 0px;
-      top: 0px;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
      // z-index: 1;
   
       &__close__btn {
