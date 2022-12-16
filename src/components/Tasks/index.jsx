@@ -1,22 +1,24 @@
 import React, { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
-import { AddTaskForm, EditPopup, CheckBoxCircle, Toggle } from '../../components';
+import { AddTaskForm, Formular, EditPopup, CheckBoxCircle, Toggle, ModalDialog } from '../../components';
 
 import './Tasks.scss';
 import editSvg from '../../assets/img/edit.svg';
 import removeSvg from '../../assets/img/remove.svg';
+import addSvg from '../../assets/img/add.svg';
 
 export default function Tasks({ selectedId, lists = [], colors = [], tasks = [], onEditFolder, onDeleteTask, onEditTask, onCompleteTask, onAddTask, withoutEmpty = false }) {
 
     const [editDia, setEditDia] = useState(false);
     const [editTaskDia, setEditTaskDia] = useState(false);
     const [editTask, setEditTask] = useState({});
+    const [visible, setVisible] = useState(false);
 
     const params = useParams();
     const navigate = useNavigate();
-   // console.log(params)
+    // console.log(params)
 
-    if(!selectedId){
+    if (!selectedId) {
         selectedId = Number(params.id)
     }
 
@@ -34,9 +36,11 @@ export default function Tasks({ selectedId, lists = [], colors = [], tasks = [],
 
     const handleOnAddTask = (task) => {
 
-        task.listId = selectedId
+        task.text = task.name;
+        task.listId = selectedId;
 
         onAddTask(task);
+        setVisible(false);
     }
 
     const handleOnChangeCheckbox = (taskId, checked) => {
@@ -52,9 +56,9 @@ export default function Tasks({ selectedId, lists = [], colors = [], tasks = [],
     const handleOnEditTask = (task) => {
 
         navigate(`/task/${task.id}`)
-       /*  task.name = task.text;
-        setEditTask(task)
-        setEditTaskDia(true); */
+        /*  task.name = task.text;
+         setEditTask(task)
+         setEditTaskDia(true); */
     }
 
     const handleOnTaskChanged = async (task) => {
@@ -129,8 +133,30 @@ export default function Tasks({ selectedId, lists = [], colors = [], tasks = [],
 
                 {/* <Toggle label="Python" style={{fontWeight: "bold"}} onClick={(checked) => console.log('toogle', checked)}/> */}
 
-                {selectedId > 0 && <AddTaskForm onAddTask={handleOnAddTask} />}
+                {/* {selectedId > 0 && <AddTaskForm onAddTask={handleOnAddTask} />} */}
+
+
             </div>
+
+            { !visible ? 
+            
+            <div className='tasks'>
+                <div className='tasks-form'>
+                    <div className="tasks-form-new" onClick={() => setVisible(true)}>
+                        <img src={addSvg} alt="add" />
+                        <span>Neue Aufgabe</span>
+                    </div>
+                </div>
+            </div>
+            : <ModalDialog visible={visible} setVisible={setVisible}>
+                <Formular 
+                    title="neu Aufgabe" 
+                    hex={colors.find(color => color.id === selectedItem.colorId).hex }
+                    onValueChanged={handleOnAddTask}
+                    onClose={() => setVisible(false)}/>
+                
+            </ModalDialog>
+            }
         </div>
     )
 }

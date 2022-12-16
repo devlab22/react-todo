@@ -1,0 +1,33 @@
+.formular{
+
+    position: relative;
+    border: 2px solid #f4f6f8;
+    padding: 40px;
+    height: auto;
+    width: auto;
+    box-sizing: border-box;
+    border-radius: 20px;
+    
+    &__h1{
+        color: skyblue;
+        padding-bottom: 20px;
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    img{
+        position: absolute;
+        right: -26px;
+        top: -26px;
+        cursor: pointer;
+
+    }
+
+    &__inline{
+        margin-top: 5px;
+        display: inline-flex;
+        width: 100%;
+        justify-content: space-between;
+        
+    }
+}

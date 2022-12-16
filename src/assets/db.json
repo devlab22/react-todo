@@ -39,7 +39,7 @@
       "name": "Sport",
       "colorId": 5,
       "id": 6,
-      "seqnr": 4
+      "seqnr": 2
     },
     {
       "name": "Tutorial ReactJS ToDo",
@@ -212,6 +212,22 @@
       "seqnr": 1,
       "listId": 8,
       "id": 27
+    },
+    {
+      "name": "new",
+      "seqnr": 2,
+      "colorId": null,
+      "listId": 5,
+      "id": 28,
+      "text": "new"
+    },
+    {
+      "name": "new 2",
+      "seqnr": 0,
+      "colorId": null,
+      "text": "new 2",
+      "listId": 5,
+      "id": 29
     }
   ],
   "colors": [

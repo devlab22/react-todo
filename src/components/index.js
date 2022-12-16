@@ -13,3 +13,5 @@ export {default as ColorPalette} from './ColorPalette';
 export {default as CheckBoxCircle} from './UI/checkboxCircle';
 export {default as Toggle} from './Toggle';
 export {default as LoadingCircle} from './LoadingCircle';
+export {default as ModalDialog} from './ModalDialog';
+export {default as Formular} from './Formular';
