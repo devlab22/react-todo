@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
-import { AddTaskForm, Formular, EditPopup, CheckBoxCircle, Toggle, ModalDialog } from '../../components';
+import { AddTaskForm, Formular, EditPopup, CheckBoxCircle, ModalDialog } from '../../components';
 
 import './Tasks.scss';
 import editSvg from '../../assets/img/edit.svg';
@@ -120,7 +120,7 @@ export default function Tasks({ selectedId, lists = [], colors = [], tasks = [],
 
                     items.map(item => (
 
-                        <div key={item.id} className="tasks__items-row">
+                        <div key={item.id} className="tasks__items__row">
 
                             <CheckBoxCircle id={item.id} label={item.text} completed={item.completed} onClick={handleOnChangeCheckbox} />
 
@@ -130,7 +130,7 @@ export default function Tasks({ selectedId, lists = [], colors = [], tasks = [],
                         </div>
                     ))}
 
-                {/* <Toggle label="Python" style={{fontWeight: "bold"}} onClick={(checked) => console.log('toogle', checked)}/> */}
+               
 
                 {/* {selectedId > 0 && <AddTaskForm onAddTask={handleOnAddTask} />} */}
 
