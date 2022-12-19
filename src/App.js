@@ -14,7 +14,7 @@ function App() {
 
   const [data, setData] = useState([]);
   const [tasks, setTasks] = useState([]);
-  const [selectedId, setSelectedId] = useState(0);
+  const [selectedId, setSelectedId] = useState(null);
   const [folderColors, setFolderColors] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -258,7 +258,9 @@ function App() {
 
     const itemId = location.pathname.split("lists/")[1];
     if (itemId) {
-      itemId ? setSelectedId(Number(itemId)) : setSelectedId(0);
+      itemId ? setSelectedId(Number(itemId)) : setSelectedId(null);
+    }else{
+      setSelectedId(null);
     }
 
   }, [data, location, location.pathname])

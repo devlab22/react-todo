@@ -11,15 +11,13 @@ function List({ items = [], onClickItem, onClickRemove, selectedId=null, colors=
   const navigate = useNavigate();
   const params = useParams();
 
- // console.log(params)
   if(params.id){
     selectedId = params.id
   }
-  //console.log(items)
- // console.log(selectedId)
 
   const handleOnClickItem = (id) => {
     
+    console.log("click", id)
     if(id != null){
       id === 0 ? navigate("/lists") : navigate(`/lists/${id}`);
     }else{
@@ -33,7 +31,7 @@ function List({ items = [], onClickItem, onClickRemove, selectedId=null, colors=
       {
         items.map((item, index) => (
          
-          <li key={index} className={item.clsname + ' ' + ( selectedId === item.id && 'active' ) } onClick={() => handleOnClickItem(item.id)}>
+          <li key={index} className={item.clsname + ' ' + ( ( selectedId === item.id ) || (selectedId === null) && (item.id === 0) && 'active' ) } onClick={() => handleOnClickItem(item.id)}>
             <i>
               {item.icon ? (<img src={item.icon} alt="icon" ></img>) : <Badge width={8} hex={colors.find(color => color.id === item.colorId).hex} />}
             </i>
