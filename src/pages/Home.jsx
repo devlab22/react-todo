@@ -8,7 +8,7 @@ export default function Home() {
 
         
         <div className={styles.page__container}>
-            <ul className={styles.page__container__list}>
+            <ul>
                 <li>Erstelle deine Aufgaben</li>
                 <li>Verfeinere die Ziele</li>
             </ul>

@@ -228,6 +228,14 @@
       "text": "new 2",
       "listId": 5,
       "id": 29
+    },
+    {
+      "name": "Herr der Ringe",
+      "seqnr": 0,
+      "colorId": null,
+      "text": "Herr der Ringe",
+      "listId": 3,
+      "id": 30
     }
   ],
   "colors": [

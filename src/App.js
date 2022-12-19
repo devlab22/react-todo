@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Circles } from 'react-loader-spinner';
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 
 import { Sidebar, Tasks, Header } from './components';
 import { About, Task, Folder, Home } from './pages';
@@ -18,7 +18,8 @@ function App() {
   const [folderColors, setFolderColors] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  let location = useLocation();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
 

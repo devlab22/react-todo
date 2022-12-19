@@ -3,17 +3,19 @@
     text-align: center;
 
     h1 {
-        font-size: 2rem !important;
+        font-size: 2rem;
         font-weight: bold;
         text-transform: uppercase;
         color: skyblue;
+        border-bottom: 1px solid #f2f2f2;
+        padding-bottom: 30px;
     }
 
     &__container {
 
         border: 2px solid #f4f6f8;
         padding: 40px;
-        margin: 10% 30%;
+        margin: 50px 35%;
         height: auto;
         width: 405px;
         box-sizing: border-box;
@@ -34,11 +36,10 @@
             list-style-type: circle;
             text-align: left;
             list-style-position: inside;
-
+            line-height: 2rem;
             
             li{
-                font-size: 1.5rem;
-                padding: 5px;
+                font-size: 1.5rem; 
             }
         }
     }

@@ -16,7 +16,6 @@ export default function Tasks({ selectedId, lists = [], colors = [], tasks = [],
 
     const params = useParams();
     const navigate = useNavigate();
-    // console.log(params)
 
     if (!selectedId) {
         selectedId = Number(params.id)
