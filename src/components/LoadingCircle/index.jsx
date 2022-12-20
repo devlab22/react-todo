@@ -4,7 +4,7 @@ import { Circles } from 'react-loader-spinner';
 export default function LoadingCircle(){
 
     return (
-        <div style={{"margin": "auto"}}>
+        <div style={{"margin": "10% 40%"}}>
             <Circles
                 height="100"
                 width="100"

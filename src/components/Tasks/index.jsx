@@ -32,12 +32,13 @@ export default function Tasks({ selectedId, lists = [], colors = [], tasks = [],
         selectedItem.id === 0 ? items = tasks : items = tasks.filter(item => item.listId === selectedId).sort((a, b) => a.seqnr - b.seqnr);
     }
 
-    const handleOnAddTask = (task) => {
+    const handleOnAddTask = async (task) => {
 
         task.text = task.name;
         task.listId = selectedId;
+        task.completed = false;
 
-        onAddTask(task);
+        await onAddTask(task);
         setVisible(false);
     }
 
@@ -45,12 +46,26 @@ export default function Tasks({ selectedId, lists = [], colors = [], tasks = [],
         onCompleteTask(taskId, checked);
     }
 
-    const handleOnEditTask = (task) => {
+    const handleOnEditTask = async (task) => {
 
         // navigate(`/task/${task.id}`)
         task.name = task.text;
         setEditTask(task)
         setEditTaskDia(true);
+    }
+
+    const handleOnTaskChanged = async (item) => {
+
+        const newTask = {
+            id: editTask.id,
+            listId: editTask.listId,
+            completed: editTask.completed,
+            text: item.name,
+            seqnr: item.seqnr,
+        }
+       
+        await onEditTask(newTask);
+        setEditTaskDia(false);
     }
 
 
@@ -60,7 +75,7 @@ export default function Tasks({ selectedId, lists = [], colors = [], tasks = [],
             <h1 className='tasks__title'
                 style={{ color: colors.find(color => color.id === selectedItem.colorId).hex }}
             >
-                {seqnr} {title}
+               {title}
                 {selectedItem && (
 
                     <span>
@@ -113,7 +128,7 @@ export default function Tasks({ selectedId, lists = [], colors = [], tasks = [],
                         title={editTask.text}
                         selectedItem={editTask}
                         hex={colors.find(color => color.id === selectedItem.colorId).hex}
-                        onValueChanged={handleOnEditTask}
+                        onValueChanged={handleOnTaskChanged}
                         onClose={() => setEditTaskDia(false)} />
 
                 </ModalDialog>

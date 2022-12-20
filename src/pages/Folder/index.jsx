@@ -13,7 +13,7 @@ export default function Folder({ items = [], colors = [], onAdd, onEdit }) {
         id: null,
         name: '',
         seqnr: 0,
-        colorId: null
+        colorId: 1
     });
 
     useEffect(() => {

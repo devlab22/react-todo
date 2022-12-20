@@ -10,23 +10,25 @@
     text-transform: uppercase;
 
     .navbar__link {
-        margin: -25px 0 40px auto;
+        margin: -20px 0 40px auto;
         position: absolute;
         text-decoration: none;
         color: white;
         font-size: 2rem;
         font-weight: bold;
+        
 
         &:hover {
             color: darken(white, 40%);
         }
 
         &__login {
-            right: 260px;
+            right: 300px;
         }
 
         &__logout {
-            right: 130px;
+            right: 145px;
+            cursor: pointer;
         }
 
         &__about{
@@ -58,26 +60,4 @@
         position: relative;
     }
 
-    button {
-        right: 30px;
-        position: relative;
-        cursor: pointer;
-    }
-
-    .form__btn {
-
-        margin: 15px 20px 5px 10px;
-
-
-        img {
-
-            opacity: .8;
-            cursor: pointer;
-            margin-right: 0px;
-
-            &:hover {
-                opacity: 1;
-            }
-        }
-    }
 }

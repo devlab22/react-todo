@@ -26,6 +26,7 @@ function List({ items = [], onClickItem, onClickRemove, selectedId=null, colors=
     }  
     
   }
+
   return (
     <ul className="list">
       {

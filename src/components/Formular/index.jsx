@@ -44,12 +44,11 @@ export default function Formular({ title, hex, colors = [], selectedItem = null,
                 {title && <h1 className={styles.formular__h1} style={{color: hex}}>{title}</h1>}
 
                 <MyInput
-                    value={ selectedItem ? selectedItem.id : "new"}
-                    type="text"
-                    title="ID"
                     readOnly
-                     >
-                </MyInput>
+                    type="text"
+                    value={selectedItem && selectedItem.id ? selectedItem.id : "new"}
+                    title="ID"
+                />
                 <MyInput
                     autoFocus
                     value={inputValue}

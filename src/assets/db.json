@@ -1,79 +1,77 @@
 {
   "lists": [
     {
-      "id": 0,
-      "name": "Alle Aufgaben",
-      "seqnr": 0
-    },
-    {
       "id": 1,
       "name": "Einkauf",
       "colorId": 5,
-      "seqnr": 8
+      "seqnr": 8,
+      "userId": 2
     },
     {
       "id": 2,
       "name": "Frontend",
       "colorId": 4,
-      "seqnr": 1
+      "seqnr": 1,
+      "userId": 1
     },
     {
       "id": 3,
       "name": "Filme und Serials ",
       "colorId": 4,
-      "seqnr": 5
+      "seqnr": 5,
+      "userId": 2
     },
     {
       "id": 4,
       "name": "Bücher",
       "colorId": 2,
-      "seqnr": 9
+      "seqnr": 9,
+      "userId": 2
     },
     {
       "id": 5,
       "name": "Private",
       "colorId": 3,
-      "seqnr": 6
+      "seqnr": 6,
+      "userId": 2
     },
     {
       "name": "Sport",
       "colorId": 5,
       "id": 6,
-      "seqnr": 2
+      "seqnr": 2,
+      "userId": 2
     },
     {
       "name": "Tutorial ReactJS ToDo",
       "colorId": 7,
       "id": 7,
-      "seqnr": 7
+      "seqnr": 7,
+      "userId": 1
     },
     {
       "name": "Backend",
       "colorId": 6,
       "id": 8,
-      "seqnr": 3
+      "seqnr": 3,
+      "userId": 1
     },
     {
       "name": "new",
       "colorId": 9,
       "seqnr": "10",
-      "id": 9
+      "id": 9,
+      "userId": 2
     },
     {
       "name": "new folder",
       "colorId": 6,
       "seqnr": 20,
-      "id": 10
+      "id": 10,
+      "userId": 2
     }
   ],
   "tasks": [
-    {
-      "id": 1,
-      "listId": 2,
-      "text": "Lernen JavaScript",
-      "completed": false,
-      "seqnr": 1
-    },
     {
       "id": 2,
       "listId": 2,
@@ -93,34 +91,6 @@
       "listId": 2,
       "text": "Redux (redux-observable, redux-saga)",
       "completed": false,
-      "seqnr": 4
-    },
-    {
-      "listId": 1,
-      "text": "test",
-      "completed": false,
-      "id": 6,
-      "seqnr": 1
-    },
-    {
-      "listId": 1,
-      "text": "qweqwe",
-      "completed": true,
-      "id": 7,
-      "seqnr": 2
-    },
-    {
-      "listId": 1,
-      "text": "qweqwe",
-      "completed": true,
-      "id": 8,
-      "seqnr": 3
-    },
-    {
-      "listId": 1,
-      "text": "123",
-      "completed": true,
-      "id": 9,
       "seqnr": 4
     },
     {
@@ -152,19 +122,6 @@
       "seqnr": 3
     },
     {
-      "text": "tennis",
-      "listId": 6,
-      "id": 18,
-      "seqnr": 1
-    },
-    {
-      "text": "schwimmen",
-      "completed": false,
-      "listId": 6,
-      "id": 19,
-      "seqnr": 2
-    },
-    {
       "text": "qwe",
       "completed": false,
       "listId": 6,
@@ -172,18 +129,11 @@
       "seqnr": 3
     },
     {
-      "text": "laufen0",
+      "text": "laufen",
       "completed": false,
       "listId": 6,
       "id": 21,
       "seqnr": 4
-    },
-    {
-      "text": "wsqws",
-      "completed": false,
-      "listId": 4,
-      "id": 23,
-      "seqnr": 1
     },
     {
       "text": "Lernen CSS",
@@ -214,28 +164,43 @@
       "id": 27
     },
     {
-      "name": "new",
       "seqnr": 2,
-      "colorId": null,
+      "completed": false,
       "listId": 5,
       "id": 28,
       "text": "new"
     },
     {
-      "name": "new 2",
       "seqnr": 0,
-      "colorId": null,
+      "completed": false,
       "text": "new 2",
       "listId": 5,
       "id": 29
     },
     {
-      "name": "Herr der Ringe",
       "seqnr": 0,
-      "colorId": null,
+      "completed": true,
       "text": "Herr der Ringe",
       "listId": 3,
       "id": 30
+    },
+    {
+      "name": "Avatar",
+      "seqnr": 1,
+      "colorId": null,
+      "text": "Avatar",
+      "listId": 3,
+      "completed": true,
+      "id": 31
+    },
+    {
+      "name": "Avatar 2",
+      "seqnr": 2,
+      "colorId": null,
+      "text": "Avatar 2",
+      "listId": 3,
+      "completed": true,
+      "id": 32
     }
   ],
   "colors": [
@@ -297,10 +262,14 @@
   ],
   "users": [
     {
-      "login": "admin"
+      "id": 1,
+      "login": "admin",
+      "password": "dGVzdDEyMw=="
     },
     {
-      "login": "usr1"
+      "id": 2,
+      "login": "user1",
+      "password": "dXNyMTIz"
     }
   ]
 }

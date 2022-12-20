@@ -1,11 +1,12 @@
-import React from "react";
+import React, {Fragment} from "react";
 
-import {List } from '../../components';
+import { List } from '../../components';
 
 import './Sidebar.scss';
 import plusSvg from '../../assets/img/add.svg';
+import listSvg from '../../assets/img/list.svg';
 
-function Sidebar({ items = [], onClickItem, onClickRemove, colors=[], selectedId }) {
+function Sidebar({ items = [], tasks = 0, login = false, onClickItem, onClickRemove, colors = [], selectedId }) {
 
     const addFolder = [
         {
@@ -15,12 +16,39 @@ function Sidebar({ items = [], onClickItem, onClickRemove, colors=[], selectedId
         }
     ];
 
+    const allTasks = [
+        {
+            name: "Alle Aufgaben",
+            id: 0,
+            icon: listSvg,
+            tasks: tasks,
+            clsname: "mb30"
+        }
+    ];
+
     return (
         <div className="sidebar">
-            <List items={addFolder}/>
-            <List items={items.filter(item => item.id === 0)} onClickItem={onClickItem} selectedId={selectedId} colors={colors} />
-            <List items={items.filter(item => item.id !== 0)} onClickRemove={onClickRemove} onClickItem={onClickItem} selectedId={selectedId} isRemovable={true} colors={colors} />
-            
+
+            {login && (
+
+                <Fragment>
+                    <List 
+                        items={addFolder} />
+                    <List 
+                        items={allTasks} 
+                        onClickItem={onClickItem} 
+                        selectedId={selectedId} />
+                    <List 
+                        items={items.filter(item => item.id !== 0)} 
+                        onClickRemove={onClickRemove} 
+                        onClickItem={onClickItem} 
+                        selectedId={selectedId} 
+                        isRemovable={true} 
+                        colors={colors} />
+                </Fragment>
+
+            )}
+
         </div>
     )
 }
