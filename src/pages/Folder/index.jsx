@@ -43,10 +43,8 @@ export default function Folder({ items = [], colors = [], onAdd, onEdit }) {
                 <MyInput
                     readOnly
                     type="text"
-                    placeholder="Bezeichnung"
-                    value={`id ${folder.id}`}
-                    required
-                    onChange={event => { }}
+                    value={folder.id ? folder.id : "new"}
+                    title="ID"
                 />
                 <MyInput
                     autoFocus
@@ -54,6 +52,7 @@ export default function Folder({ items = [], colors = [], onAdd, onEdit }) {
                     placeholder="Bezeichnung"
                     value={folder.name}
                     required
+                    title="Bezeichnung"
                     onChange={event => setFolder(prev => ({ ...prev, name: event.target.value }))}
                 >
                 </MyInput>
@@ -61,6 +60,7 @@ export default function Folder({ items = [], colors = [], onAdd, onEdit }) {
                     type="number"
                     placeholder="seqnr"
                     required
+                    title="Seqnr"
                     value={folder.seqnr}
                     onChange={event => setFolder(prev => ({ ...prev, seqnr: Number(event.target.value) }))}
                 >

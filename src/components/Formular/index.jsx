@@ -44,10 +44,18 @@ export default function Formular({ title, hex, colors = [], selectedItem = null,
                 {title && <h1 className={styles.formular__h1} style={{color: hex}}>{title}</h1>}
 
                 <MyInput
+                    value={ selectedItem ? selectedItem.id : "new"}
+                    type="text"
+                    title="ID"
+                    readOnly
+                     >
+                </MyInput>
+                <MyInput
                     autoFocus
                     value={inputValue}
                     type="text"
                     placeholder="Bezeichnung"
+                    title="Bezeichnung"
                     onChange={event => setInputValue(event.target.value)}
                     required >
                 </MyInput>
@@ -55,6 +63,7 @@ export default function Formular({ title, hex, colors = [], selectedItem = null,
                     value={seqnr}
                     type="number"
                     required
+                    title="Seqnr"
                     placeholder="Seqnr"
                     onChange={event => setSeqnr(event.target.value)}>
 

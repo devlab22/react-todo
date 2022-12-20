@@ -15,15 +15,11 @@ function List({ items = [], onClickItem, onClickRemove, selectedId=null, colors=
     selectedId = params.id
     
   }
-  
-  if(!selectedId){
-    selectedId = 0;
-  }
 
   const handleOnClickItem = (id) => {
     
     if(id != null){
-      id === 0 ? navigate(`/lists/`) : navigate(`/lists/${id}`);
+      id === 0 ? navigate(`/lists/${id}`) : navigate(`/lists/${id}`);
     }else{
       //onClickItem(id);
       navigate(`/list/${null}`);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Circles } from 'react-loader-spinner';
-import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 import { Sidebar, Tasks, Header } from './components';
 import { About, Task, Folder, Home } from './pages';
@@ -19,7 +19,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   const location = useLocation();
-  const navigate = useNavigate();
 
   useEffect(() => {
 
@@ -304,7 +303,9 @@ function App() {
               }>
 
               </Route>
-              <Route exact path='/lists' element={
+
+              <Route exact path='/lists/0' element={
+
                 data && data.map(item => (
 
                   item.id > 0 && (
@@ -321,9 +322,9 @@ function App() {
                       onCompleteTask={handleOnCompleteTask}
                       onEditFolder={handleOnEditFolder}
                     />
-                  )))
-              }>
-
+                  )))  }>
+              
+                  
               </Route>
               <Route exact path='/lists/:id' element={
 

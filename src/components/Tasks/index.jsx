@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
-import { AddTaskForm, Formular, EditPopup, CheckBoxCircle, ModalDialog } from '../../components';
+import { Formular, CheckBoxCircle, ModalDialog } from '../../components';
 
 import './Tasks.scss';
 import editSvg from '../../assets/img/edit.svg';
 import removeSvg from '../../assets/img/remove.svg';
 import addSvg from '../../assets/img/add.svg';
 
-export default function Tasks({ selectedId, lists = [], colors = [], tasks = [], onEditFolder, onDeleteTask, onEditTask, onCompleteTask, onAddTask, withoutEmpty = false }) {
+export default function Tasks({ selectedId, lists = [], colors = [], tasks = [], onDeleteTask, onEditTask, onCompleteTask, onAddTask, withoutEmpty = false }) {
 
-    const [editDia, setEditDia] = useState(false);
     const [editTaskDia, setEditTaskDia] = useState(false);
     const [editTask, setEditTask] = useState({});
     const [visible, setVisible] = useState(false);
@@ -46,33 +45,12 @@ export default function Tasks({ selectedId, lists = [], colors = [], tasks = [],
         onCompleteTask(taskId, checked);
     }
 
-    const handleOnFolderChanged = async (item) => {
-
-        onEditFolder(item);
-        setEditDia(false);
-    }
-
     const handleOnEditTask = (task) => {
 
-        navigate(`/task/${task.id}`)
-        /*  task.name = task.text;
-         setEditTask(task)
-         setEditTaskDia(true); */
-    }
-
-    const handleOnTaskChanged = async (task) => {
-
-
-        const updateTask = {
-            id: task.id,
-            text: task.name,
-            seqnr: task.seqnr
-        }
-
-        console.log(updateTask)
-
-        onEditTask(updateTask);
-        setEditTaskDia(false);
+        // navigate(`/task/${task.id}`)
+        task.name = task.text;
+        setEditTask(task)
+        setEditTaskDia(true);
     }
 
 
@@ -92,29 +70,6 @@ export default function Tasks({ selectedId, lists = [], colors = [], tasks = [],
                 )}
             </h1>
 
-            {editDia &&
-                <EditPopup
-                    colors={colors}
-                    selectedItem={selectedItem}
-                    onValueChanged={handleOnFolderChanged}
-                    btnTitle="Ändern"
-                    onClose={() => setEditDia(false)}
-                />
-
-            }
-
-            {editTaskDia &&
-                <EditPopup
-                    style={{ height: 160 }}
-                    selectedItem={editTask}
-                    onValueChanged={handleOnTaskChanged}
-                    btnTitle="Ändern"
-                    onClose={() => setEditTaskDia(false)}
-                />
-
-            }
-
-
             <div className='tasks__items'>
                 {items.length === 0 ? (!withoutEmpty && selectedId && <h2>keine Aufgaben</h2>) :
 
@@ -130,32 +85,41 @@ export default function Tasks({ selectedId, lists = [], colors = [], tasks = [],
                         </div>
                     ))}
 
-               
-
-                {/* {selectedId > 0 && <AddTaskForm onAddTask={handleOnAddTask} />} */}
-
-
             </div>
 
-            { !visible ? 
-            
-            <div className='tasks'>
-                <div className='tasks-form'>
-                    <div className="tasks-form-new" onClick={() => setVisible(true)}>
-                        <img src={addSvg} alt="add" />
-                        <span>Neue Aufgabe</span>
+            {!visible ?
+
+                <div className='tasks'>
+                    <div className='tasks-form'>
+                        <div className="tasks-form-new" onClick={() => setVisible(true)}>
+                            <img src={addSvg} alt="add" />
+                            <span>Neue Aufgabe</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            : <ModalDialog visible={visible} setVisible={setVisible}>
-                <Formular 
-                    title="neu Aufgabe" 
-                    hex={colors.find(color => color.id === selectedItem.colorId).hex }
-                    onValueChanged={handleOnAddTask}
-                    onClose={() => setVisible(false)}/>
-                
-            </ModalDialog>
+                : <ModalDialog visible={visible} setVisible={setVisible}>
+                    <Formular
+                        title="neu Aufgabe"
+                        hex={colors.find(color => color.id === selectedItem.colorId).hex}
+                        onValueChanged={handleOnAddTask}
+                        onClose={() => setVisible(false)} />
+
+                </ModalDialog>
             }
+
+            {editTaskDia && (
+                <ModalDialog visible={editTaskDia} setVisible={setEditTaskDia}>
+                    <Formular
+                        title={editTask.text}
+                        selectedItem={editTask}
+                        hex={colors.find(color => color.id === selectedItem.colorId).hex}
+                        onValueChanged={handleOnEditTask}
+                        onClose={() => setEditTaskDia(false)} />
+
+                </ModalDialog>
+            )}
+
+
         </div>
     )
 }
