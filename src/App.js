@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 
 import { Sidebar, Tasks, Header, LoadingCircle } from './components';
 import { About, Task, Folder, Home, Login, Error } from './pages';
+import Dashboard from './API/Dashboard';
 
 //import DB from './assets/db.json';
 
 function App() {
 
   const [user, setUser] = useState({ id: null, login: "" })
-  const [users, setUsers] = useState([]);
   const [folders, setFolders] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [folderColors, setFolderColors] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
 
   const location = useLocation();
@@ -23,46 +22,63 @@ function App() {
 
   useEffect(() => {
 
+    async function loadCustomizing(){
+
+      if(folderColors.length > 0){
+        return
+      }
+      setIsLoading(true);
+      console.log('colors')
+      try{
+        const data = await Dashboard.getColors();
+        setFolderColors(data);
+      }
+      catch(err){
+        handleOnError(err.message);
+      }
+      finally{
+        setIsLoading(false);
+      }
+    };
+
     async function readData() {
 
+      if(user.id === null){
+        return
+      }
+
       setIsLoading(true)
+
       try {
+        
+        const foldersList = await Dashboard.getFolders4User(user.id);
+        const tasksList = await Dashboard.getTasks();
 
-        const [respLists, respColors, respTasks, respUsers] = await Promise.all([
-          axios.get("/lists"),
-          axios.get("/colors"),
-          axios.get("/tasks"),
-          axios.get("/users")
-        ]);
+        foldersList.map(folder => {
 
-        const lists = respLists.data.filter(item => item.userId === user.id).map(item => {
+          folder.tasks = tasksList.filter(task => task.listId === folder.id).length;
+          return folder;
+        });
 
-          item.tasks = respTasks.data.filter(task => task.listId === item.id).length;
+        foldersList.sort((a, b) => a.seqnr - b.seqnr);
 
-          return item;
-        })
+        var newTasks = [];
 
-        lists.sort((a, b) => a.seqnr - b.seqnr);
+        tasksList.forEach(task => {
 
-        var newTasks = []
-
-        for (let i = 0; i < respTasks.data.length; i++) {
-          const task = respTasks.data[i]
-
-          const pup = lists.find(item => item.id === task.listId)
+          const pup = foldersList.find(item => item.id === task.listId);
           if (pup) {
-            newTasks.push(task)
+            newTasks.push(task);
           }
-        }
+        });
 
-        setFolders(lists);
+        newTasks.sort((a,b) => a.seqnr - b.seqnr);
+        setFolders(foldersList);
         setTasks(newTasks);
-        setFolderColors(respColors.data);
-        setUsers(respUsers.data);
 
       }
       catch (err) {
-        console.log(err);
+        handleOnError(err.message);
       }
       finally {
         setIsLoading(false);
@@ -70,6 +86,7 @@ function App() {
 
     }
 
+    loadCustomizing();
     readData();
 
   }, [user]);
@@ -84,12 +101,13 @@ function App() {
     try {
 
       setIsLoading(true);
-      await axios.delete(`/lists/${id}`);
+
+      await Dashboard.deleteFolder(id)
 
       setFolders(prev => prev.filter(item => item.id !== id));
     }
     catch (err) {
-      alert(err);
+      handleOnError(err.message);
     }
     finally {
       setIsLoading(false);
@@ -109,12 +127,14 @@ function App() {
     }
 
     try {
-      const { data } = await axios.post('/lists', {
+      setIsLoading(true);
+
+      const data = await Dashboard.createFolder({
         name: item.name,
         colorId: item.colorId,
         seqnr: item.seqnr,
         userId: user.id
-      });
+      })
 
       data.tasks = 0;
 
@@ -126,7 +146,10 @@ function App() {
 
     }
     catch (err) {
-      alert(err);
+      handleOnError(err.message);
+    }
+    finally {
+      setIsLoading(false);
     }
 
   }
@@ -136,16 +159,19 @@ function App() {
     try {
 
       setIsLoading(true);
-      await axios.patch(`/tasks/${task.id}`, {
+
+      const taskUpd = await Dashboard.updateTask(task.id, {
         text: task.text,
-        seqnr: task.seqnr
+        seqnr: task.seqnr,
+        completed: task.completed
       });
 
       const newList = tasks.map(curr => {
 
-        if (curr.id === task.id) {
-          curr.text = task.text;
-          curr.seqnr = task.seqnr;
+        if (curr.id === taskUpd.id) {
+          curr.text = taskUpd.text;
+          curr.seqnr = taskUpd.seqnr;
+          curr.completed = taskUpd.completed;
         }
 
         return curr;
@@ -156,7 +182,7 @@ function App() {
     }
     catch (err) {
 
-      alert(err);
+      handleOnError(err.message);
     }
 
     finally {
@@ -174,7 +200,7 @@ function App() {
     try {
 
       setIsLoading(true);
-      await axios.delete(`/tasks/${item.id}`);
+      await Dashboard.deleteTask(item.id)
 
       setTasks(prev => prev.filter(curr => curr.id !== item.id));
 
@@ -192,7 +218,7 @@ function App() {
     }
     catch (err) {
 
-      alert(err);
+      handleOnError(err.message);
     }
     finally {
       setIsLoading(false);
@@ -205,9 +231,9 @@ function App() {
     try {
 
       setIsLoading(true);
-      const resp = await axios.post('/tasks', task);
+      const data = await Dashboard.createTask(task)
 
-      setTasks(prev => [...prev, resp.data]);
+      setTasks(prev => [...prev, data]);
 
       const newList = folders.map(item => {
 
@@ -222,7 +248,7 @@ function App() {
 
     }
     catch (err) {
-      alert(err)
+      handleOnError(err.message)
     }
     finally {
       setIsLoading(false);
@@ -235,9 +261,8 @@ function App() {
     try {
 
       setIsLoading(true);
-      const { data } = await axios.patch(`/tasks/${taskId}`, {
-        completed: completed
-      });
+
+      const data = await Dashboard.updateTask(taskId, {completed: completed})
 
       setTasks(prev => prev.map(item => {
 
@@ -252,7 +277,7 @@ function App() {
 
     }
     catch (err) {
-      alert(err)
+      handleOnError(err.message)
     }
     finally {
       setIsLoading(false);
@@ -268,7 +293,7 @@ function App() {
     try {
 
       setIsLoading(true);
-      await axios.patch(`/lists/${item.id}`, {
+      const data = await Dashboard.updateFolder(item.id, {
         name: item.name,
         colorId: item.colorId,
         seqnr: item.seqnr
@@ -276,10 +301,10 @@ function App() {
 
       const newList = folders.map(curr => {
 
-        if (curr.id === item.id) {
-          curr.name = item.name;
-          curr.colorId = item.colorId;
-          curr.seqnr = item.seqnr;
+        if (curr.id === data.id) {
+          curr.name = data.name;
+          curr.colorId = data.colorId;
+          curr.seqnr = data.seqnr;
         }
 
         return curr;
@@ -290,7 +315,7 @@ function App() {
 
     }
     catch (err) {
-      alert(err);
+      handleOnError(err.message);
     }
     finally {
       setIsLoading(false);
@@ -301,26 +326,14 @@ function App() {
 
     try {
       setIsLoading(true);
-      const { data } = await axios.get(`/users?login=${item.login}`);
-      
-      if (data.length === 0) {
 
-        handleOnError("login oder password ist falsch");
-
-      } else {
-
-        const pwd = atob(data[0].password)
-        if (item.password != pwd) {
-          handleOnError("login oder password ist falsch");
-        } else {
-          setUser(data[0]);
-          navigate('/', { replace: true });
-        }
-
-      }
+      const data = await Dashboard.login(item.login, item.password);
+      setUser(data);
+      navigate('/', { replace: true });
     }
     catch (err) {
-      alert(err)
+      setUser({id:null, login: ''})
+      handleOnError(err.message)
     }
     finally {
       setIsLoading(false);
@@ -328,7 +341,7 @@ function App() {
   }
 
   const handleOnLogout = () => {
-    
+
     setUser({ id: null, login: '' })
     navigate('/', { replace: true })
   }

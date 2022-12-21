@@ -140,7 +140,7 @@
       "completed": false,
       "listId": 2,
       "id": 24,
-      "seqnr": 2
+      "seqnr": 3
     },
     {
       "text": "Python",
@@ -201,6 +201,20 @@
       "listId": 3,
       "completed": true,
       "id": 32
+    },
+    {
+      "text": "Java Script",
+      "completed": false,
+      "listId": 8,
+      "seqnr": 0,
+      "id": 33
+    },
+    {
+      "text": "Type Script",
+      "completed": false,
+      "listId": 8,
+      "seqnr": 10,
+      "id": 34
     }
   ],
   "colors": [
